@@ -160,6 +160,7 @@ def main():
 <meta property="og:image" content="{SITE}/assets/img/{HERO}-1800.jpg">
 <meta name="twitter:card" content="summary_large_image">
 {FONTS}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 <style>{STYLE}{PAGE_CSS}</style>
 </head>
@@ -180,8 +181,7 @@ def main():
     <div class="container">{chips}</div>
   </nav>
   <section class="container hx-map">
-    <a href="/assets/img/map-highlights-2800.jpg" target="_blank" rel="noopener" aria-label="Open the Iceland highlights map full size"><img src="/assets/img/map-highlights-1800.jpg" srcset="/assets/img/map-highlights-800.jpg 800w, /assets/img/map-highlights-1800.jpg 1800w, /assets/img/map-highlights-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map of Iceland with all the main highlights marked around the Ring Road" width="1800" height="1309" loading="lazy" decoding="async"></a>
-    <p class="hx-map-cap">All the main highlights on one map. Tap to open it full size.</p>
+    <div class="imap" data-map><img class="imap-fallback" src="/assets/img/map-highlights-1800.jpg" alt="Map of Iceland with the main highlights marked around the Ring Road" loading="lazy"></div>
   </section>
   <section class="container">
     <p class="hx-count" id="hxCount" aria-live="polite">{len(HIGHLIGHTS)} highlights</p>
@@ -201,6 +201,8 @@ def main():
 {FOOTER}
 <script>{SCRIPT}</script>
 {FILTER_JS}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+<script src="/js/iceland-map.js" defer></script>
 </body>
 </html>
 """

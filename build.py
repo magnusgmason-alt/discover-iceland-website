@@ -64,7 +64,7 @@ COVERS = {
 }
 
 PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "robots.txt", "sitemap.xml"]
-PAGE_DIRS = ["blog"]
+PAGE_DIRS = ["blog", "js"]
 
 
 def save_sizes(im, name, widths):
@@ -104,6 +104,14 @@ def main():
     import make_aurora
     make_aurora.main()
     SLOTS.update(make_aurora.SLOTS)
+    import json
+    from highlights_content import CATEGORIES as HC, HIGHLIGHTS
+    (DIST / "assets").mkdir(parents=True, exist_ok=True)
+    (DIST / "assets" / "map-data.json").write_text(json.dumps({
+        "categories": HC,
+        "items": [{"slug": h["slug"], "name": h["name"], "region": h["region"], "cats": h["cats"], "ll": h["ll"],
+                   "img": f"/assets/img/hx-{h['slug']}-800.jpg", "alt": h["alt"], "text": h["text"]}
+                  for h in HIGHLIGHTS if h.get("ll")]}, ensure_ascii=False), encoding="utf8")
     from highlights_content import HIGHLIGHTS
     for h in HIGHLIGHTS:
         SLOTS["hx-" + h["slug"]] = h["photo"]
