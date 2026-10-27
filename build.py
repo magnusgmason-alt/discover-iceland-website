@@ -64,7 +64,7 @@ COVERS = {
 }
 
 PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "robots.txt", "sitemap.xml"]
-PAGE_DIRS = ["blog", "js"]
+PAGE_DIRS = ["blog", "js", "places"]
 
 
 def save_sizes(im, name, widths):
@@ -105,19 +105,25 @@ def main():
     make_aurora.main()
     SLOTS.update(make_aurora.SLOTS)
     import json
+    import make_places
+    place_slugs = set(make_places.main())
     from highlights_content import CATEGORIES as HC, HIGHLIGHTS
     (DIST / "assets").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "map-data.json").write_text(json.dumps({
         "categories": HC,
         "items": [{"slug": h["slug"], "name": h["name"], "region": h["region"], "cats": h["cats"], "ll": h["ll"],
-                   "img": f"/assets/img/hx-{h['slug']}-800.jpg", "alt": h["alt"], "text": h["text"]}
+                   "img": f"/assets/img/hx-{h['slug']}-800.jpg", "alt": h["alt"], "text": h["text"],
+                   "url": f"/places/{h['slug']}" if h["slug"] in place_slugs else f"/highlights#{h['slug']}"}
                   for h in HIGHLIGHTS if h.get("ll")]}, ensure_ascii=False), encoding="utf8")
     from highlights_content import HIGHLIGHTS
     for h in HIGHLIGHTS:
         SLOTS["hx-" + h["slug"]] = h["photo"]
 
+    sm = (ROOT / "sitemap.xml").read_text()
+    extra = "".join(f"  <url><loc>https://discovericeland.co/places/{p}</loc><lastmod>2026-10-27</lastmod></url>\n" for p in sorted(place_slugs))
     for f in PAGE_FILES:
         shutil.copy(ROOT / f, DIST / f)
+    (DIST / "sitemap.xml").write_text(sm.replace("</urlset>", extra + "</urlset>"))
     for d in PAGE_DIRS:
         shutil.copytree(ROOT / d, DIST / d)
 
