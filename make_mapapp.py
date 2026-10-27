@@ -70,7 +70,8 @@ body.mp-page .site-header { background: rgba(10, 17, 22, 0.96); box-shadow: 0 1p
 .mp-total { margin: 16px 0 6px; font-size: .9rem; color: var(--frost); }
 .mp-total span { color: var(--mist); font-size: .78rem; display: block; margin-top: 4px; }
 .mp-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.mp-actions .btn { padding: 10px 14px; font-size: .68rem; }
+.mp-actions .btn { padding: 10px 14px; font-size: .68rem; font-family: var(--sans); cursor: pointer; }
+.mp-actions button.btn.outline, .mp-card-btns button.btn.outline { background: transparent; color: var(--frost); border: 1px solid rgba(232,238,241,.45); }
 .mp-mapwrap { position: relative; min-width: 0; }
 .mp-map { position: absolute; inset: 0; background: #2f6fa6; }
 .mp-card { position: absolute; z-index: 600; left: 18px; top: 18px; width: 320px; background: var(--night-2); border-radius: 8px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.55); }
