@@ -277,6 +277,35 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 }
 
 /* Mobile nav */
+
+/* Book listings (Discover family style): big tilted cover, faint blurred photo fading into the page */
+.dbook { position: relative; overflow: hidden; isolation: isolate; background: var(--night); color: var(--frost); }
+.dbook-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); z-index: -2; opacity: .5; filter: blur(3px) saturate(.85); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 74%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 74%, transparent 100%); }
+.dbook::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,17,22,.55) 0%, rgba(10,17,22,.35) 50%, rgba(10,17,22,.65) 100%), linear-gradient(90deg, rgba(10,17,22,.15) 25%, rgba(10,17,22,.6) 100%); }
+.dbook-wrap { display: grid; grid-template-columns: minmax(0, 400px) 1fr; gap: clamp(40px, 7vw, 96px); align-items: center; padding-block: clamp(80px, 11vw, 140px); }
+.dbook-cover { display: block; perspective: 1400px; }
+.dbook-cover img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; transform: rotateY(8deg) rotateX(2deg); box-shadow: -24px 30px 60px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.4); transition: transform .6s; border-radius: 2px; }
+.dbook-cover:hover img { transform: rotateY(0deg); }
+.dbook-text { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.dbook-text .eyebrow { margin: 0; }
+.dbook h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(3rem, 7.4vw, 6.2rem); line-height: .92; letter-spacing: -0.025em; color: var(--white); margin: 0; }
+.dbook-sub { font-family: var(--serif); font-style: italic; font-size: clamp(1.15rem, 2vw, 1.4rem); color: var(--frost); margin: 0; }
+.dbook-rule { width: 56px; height: 3px; border: 0; background: var(--red); margin: 2px 0; }
+.dbook .pitch { color: var(--mist); max-width: 56ch; margin: 0; font-size: 1.02rem; line-height: 1.7; }
+.dbook .pitch strong { color: var(--white); font-weight: 600; }
+.dbook-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; border-top: 1px solid rgba(232,238,241,.18); padding-top: 22px; }
+.dbook-grid div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.dbook-grid b { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--white); }
+.dbook-grid span { font-size: .92rem; color: var(--mist); line-height: 1.5; }
+.dbook .btn-row { margin-top: 6px; }
+@media (max-width: 860px) {
+  .dbook-wrap { grid-template-columns: 1fr; gap: 40px; padding-block: 72px; }
+  .dbook-cover { width: min(64vw, 280px); margin: 0 auto; }
+  .dbook-cover img { transform: none; }
+  .dbook h2 { font-size: clamp(2.6rem, 12vw, 3.6rem); }
+  .dbook-grid { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+  .dbook-grid span { font-size: .85rem; }
+}
 @media (max-width: 1240px) {
   .nav-toggle { display: block; }
   .nav { position: fixed; inset: var(--header-h) 0 auto 0; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 24px; max-height: calc(100svh - var(--header-h)); overflow-y: auto; display: none; font-size: 0.85rem; }
@@ -479,19 +508,19 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     </div>
   </section>
 
-  <!-- GUIDE CARD -->
-  <section class="section stone">
-    <div class="container book-feature">
-      <a class="cover" href="#guides"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 900px) 360px, 80vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a>
-      <div>
-        <p class="eyebrow">The complete guide · Coming soon</p>
-        <h3>Discover Iceland<small>The Complete Travel Guide</small></h3>
-        <p class="subtitle">Regions, road trips &amp; maps</p>
-        <ul class="features"><li>Region by region</li><li>Ring Road &amp; day-trip routes</li><li>Hot pools &amp; where to swim</li><li>Weather, daylight &amp; aurora calendar</li></ul>
-        <div class="btn-row">
-          <a class="btn primary" href="#checklist">Notify me at launch</a>
-          <a class="btn outline" href="#seasons">See the seasonal editions</a>
-        </div>
+  <!-- BOOK: COMPLETE GUIDE -->
+  <section class="dbook" id="complete-guide">
+    <img class="dbook-bg" src="assets/img/book-bg-guide-1800.jpg" srcset="assets/img/book-bg-guide-800.jpg 800w, assets/img/book-bg-guide-1800.jpg 1800w" sizes="100vw" alt="" style="object-position:50% 72%" loading="lazy" decoding="async">
+    <div class="container dbook-wrap">
+      <a class="dbook-cover" href="#guides"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a>
+      <div class="dbook-text">
+        <p class="eyebrow">The complete guide · Coming 2027</p>
+        <h2>Discover<br>Iceland</h2>
+        <p class="dbook-sub">The land of fire and ice, from edge to edge</p>
+        <hr class="dbook-rule">
+        <p class="pitch">Every region of the island, the Ring Road and the detours worth taking, the hot pools, the waterfalls and the glaciers, with our own maps throughout. <strong>One book for your whole trip, in any season.</strong></p>
+        <div class="dbook-grid"><div><b>Region by region</b><span>Reykjavík, the South Coast, the East Fjords, the North, the Westfjords and the highlands</span></div><div><b>Ring Road &amp; day trips</b><span>Routes, drive times and where to stop on the way</span></div><div><b>Hot pools</b><span>Lagoons, wild springs and how to bathe like a local</span></div><div><b>Weather &amp; light</b><span>Daylight by month, road conditions and the aurora calendar</span></div></div>
+        <div class="btn-row"><a class="btn primary" href="#checklist">Notify me at launch</a><a class="btn outline" href="#summer-edition">See the seasonal editions</a></div>
       </div>
     </div>
   </section>
@@ -622,45 +651,49 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     </div>
   </section>
 
-  <!-- SEASONAL BOOK CARDS -->
-  <section class="section stone">
-    <div class="container book-feature reverse">
-      <a class="cover" href="#guides"><img src="assets/img/cover-summer-900.jpg" srcset="assets/img/cover-summer-500.jpg 500w, assets/img/cover-summer-900.jpg 900w" sizes="(min-width: 900px) 360px, 80vw" alt="Cover of Discover Iceland, Summer Edition" width="900" height="1350" loading="lazy" decoding="async"></a>
-      <div>
-        <p class="eyebrow">The summer edition · Coming soon</p>
-        <h3>Discover Iceland<small>Summer Edition</small></h3>
-        <p class="subtitle">Midnight sun, highlands &amp; hikes</p>
-        <ul class="features"><li>The highlands &amp; F-roads</li><li>Hikes &amp; multi-day treks</li><li>Puffins &amp; whale watching</li><li>Camping &amp; hot pools</li></ul>
-        <div class="btn-row">
-          <a class="btn primary" href="#checklist">Notify me at launch</a>
-          <a class="btn outline" href="#guide">See the complete guide</a>
-        </div>
+  <!-- BOOKS: SEASONAL EDITIONS -->
+  <section class="dbook" id="summer-edition">
+    <img class="dbook-bg" src="assets/img/hx-maelifell-1800.jpg" srcset="assets/img/hx-maelifell-800.jpg 800w, assets/img/hx-maelifell-1800.jpg 1800w" sizes="100vw" alt="" style="object-position:50% 50%" loading="lazy" decoding="async">
+    <div class="container dbook-wrap">
+      <a class="dbook-cover" href="#guides"><img src="assets/img/cover-summer-900.jpg" srcset="assets/img/cover-summer-500.jpg 500w, assets/img/cover-summer-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, Summer Edition" width="900" height="1350" loading="lazy" decoding="async"></a>
+      <div class="dbook-text">
+        <p class="eyebrow">The summer edition · Coming 2027</p>
+        <h2>Iceland<br>in Summer</h2>
+        <p class="dbook-sub">Midnight sun, highlands and hikes</p>
+        <hr class="dbook-rule">
+        <p class="pitch">Long light days open the whole island: the highland roads, the green valleys of Þórsmörk, the puffin cliffs and the hot rivers in the hills. <strong>Made for the months when the sun barely sets.</strong></p>
+        <div class="dbook-grid"><div><b>Highlands &amp; F-roads</b><span>When the roads open, river crossings and the 4x4 rules</span></div><div><b>Hikes &amp; treks</b><span>From short waterfall walks to the Laugavegur Trail</span></div><div><b>Puffins &amp; whales</b><span>Where and when to see them around the coast</span></div><div><b>Camping &amp; hot pools</b><span>Campsites, wild pools and long evenings outside</span></div></div>
+        <div class="btn-row"><a class="btn primary" href="#checklist">Notify me at launch</a><a class="btn outline" href="#complete-guide">See the complete guide</a></div>
       </div>
     </div>
-    <div class="container book-feature">
-      <a class="cover" href="#guides"><img src="assets/img/cover-winter-900.jpg" srcset="assets/img/cover-winter-500.jpg 500w, assets/img/cover-winter-900.jpg 900w" sizes="(min-width: 900px) 360px, 80vw" alt="Cover of Discover Iceland, Winter Edition" width="900" height="1350" loading="lazy" decoding="async"></a>
-      <div>
-        <p class="eyebrow">The winter edition · Coming soon</p>
-        <h3>Discover Iceland<small>Winter Edition</small></h3>
-        <p class="subtitle">Ice, snow &amp; short days</p>
-        <ul class="features"><li>Ice caves &amp; glacier hikes</li><li>Driving in snow &amp; wind</li><li>Short-day itineraries</li><li>Christmas &amp; New Year</li></ul>
-        <div class="btn-row">
-          <a class="btn primary" href="#checklist">Notify me at launch</a>
-          <a class="btn outline" href="#guide">See the complete guide</a>
-        </div>
+  </section>
+  <section class="dbook" id="winter-edition">
+    <img class="dbook-bg" src="assets/img/hx-jokulsarlon-winter-1800.jpg" srcset="assets/img/hx-jokulsarlon-winter-800.jpg 800w, assets/img/hx-jokulsarlon-winter-1800.jpg 1800w" sizes="100vw" alt="" style="object-position:50% 50%" loading="lazy" decoding="async">
+    <div class="container dbook-wrap">
+      <a class="dbook-cover" href="#guides"><img src="assets/img/cover-winter-900.jpg" srcset="assets/img/cover-winter-500.jpg 500w, assets/img/cover-winter-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, Winter Edition" width="900" height="1350" loading="lazy" decoding="async"></a>
+      <div class="dbook-text">
+        <p class="eyebrow">The winter edition · Coming 2027</p>
+        <h2>Iceland<br>in Winter</h2>
+        <p class="dbook-sub">Ice, snow and short days</p>
+        <hr class="dbook-rule">
+        <p class="pitch">Blue ice caves, frozen waterfalls and four-hour days of low golden light. Winter Iceland rewards the people who plan it well. <strong>How to see it safely, and at its best.</strong></p>
+        <div class="dbook-grid"><div><b>Ice caves &amp; glacier hikes</b><span>Guided tours, the season and how to choose one</span></div><div><b>Driving in snow &amp; wind</b><span>Road conditions, closures and winter tyres</span></div><div><b>Short-day itineraries</b><span>Routes that fit the daylight you have</span></div><div><b>Christmas &amp; New Year</b><span>The Yule Lads, bonfires and fireworks</span></div></div>
+        <div class="btn-row"><a class="btn primary" href="#checklist">Notify me at launch</a><a class="btn outline" href="#complete-guide">See the complete guide</a></div>
       </div>
     </div>
-    <div class="container book-feature reverse">
-      <a class="cover" href="#guides"><img src="assets/img/cover-aurora-900.jpg" srcset="assets/img/cover-aurora-500.jpg 500w, assets/img/cover-aurora-900.jpg 900w" sizes="(min-width: 900px) 360px, 80vw" alt="Cover of Discover Iceland, Northern Lights" width="900" height="1350" loading="lazy" decoding="async"></a>
-      <div>
-        <p class="eyebrow">The aurora guide · Coming soon</p>
-        <h3>Discover Iceland<small>Northern Lights</small></h3>
-        <p class="subtitle">When, where &amp; how to see them</p>
-        <ul class="features"><li>Reading the aurora forecast</li><li>Dark-sky spots by region</li><li>Camera &amp; phone settings</li><li>Tours or on your own</li></ul>
-        <div class="btn-row">
-          <a class="btn primary" href="#checklist">Notify me at launch</a>
-          <a class="btn outline" href="#guide">See the complete guide</a>
-        </div>
+  </section>
+  <section class="dbook" id="northern-lights-guide">
+    <img class="dbook-bg" src="assets/img/hx-aurora-fjord-1800.jpg" srcset="assets/img/hx-aurora-fjord-800.jpg 800w, assets/img/hx-aurora-fjord-1800.jpg 1800w" sizes="100vw" alt="" style="object-position:50% 40%" loading="lazy" decoding="async">
+    <div class="container dbook-wrap">
+      <a class="dbook-cover" href="#guides"><img src="assets/img/cover-aurora-900.jpg" srcset="assets/img/cover-aurora-500.jpg 500w, assets/img/cover-aurora-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, Northern Lights" width="900" height="1350" loading="lazy" decoding="async"></a>
+      <div class="dbook-text">
+        <p class="eyebrow">The aurora guide · Coming 2027</p>
+        <h2>The Northern<br>Lights</h2>
+        <p class="dbook-sub">When, where and how to see them</p>
+        <hr class="dbook-rule">
+        <p class="pitch">Clear skies, solar activity and real darkness: the three things that decide whether you see the aurora, and how to stack the odds in your favour. <strong>From the forecast to the photograph.</strong></p>
+        <div class="dbook-grid"><div><b>Reading the forecast</b><span>Cloud cover, Kp and solar wind explained simply</span></div><div><b>Dark-sky spots</b><span>The best places to wait, region by region</span></div><div><b>Camera &amp; phone settings</b><span>Settings that work on a cold night</span></div><div><b>Tours or on your own</b><span>When a tour is worth it, and when it is not</span></div></div>
+        <div class="btn-row"><a class="btn primary" href="#checklist">Notify me at launch</a><a class="btn outline" href="/northern-lights">Read the aurora guide</a></div>
       </div>
     </div>
   </section>
