@@ -290,9 +290,11 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 /* Phone: side-fading photos stack on top and fade downward */
 @media (max-width: 760px) {
   .strip { grid-template-columns: 1fr 1fr; }
-  .stats { grid-template-columns: 1fr; }
-  .stats > div, .stats > div + div { padding: 24px 0; border-left: 0; }
-  .stats > div + div { border-top: 1px solid var(--line); }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; }
+  .stats > div { padding: 18px 10px 16px 0; }
+  .stats > div + div { padding-left: 10px; border-left: 1px solid var(--line); }
+  .stats strong { font-size: 1.45rem; letter-spacing: -0.01em; }
+  .stats span { margin-top: 8px; font-size: 0.56rem; letter-spacing: 0.08em; line-height: 1.45; }
   .feature { display: block; min-height: 0; padding: 0 0 72px; }
   .feature-media, .feature.reverse .feature-media { position: relative; width: 100%; height: 62svh; }
   .feature-media img, .feature.reverse .feature-media img { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 55%, transparent 100%); }
