@@ -327,8 +327,8 @@ ARTICLES = [
         "description": "Is the Ring Road safe in winter? Route 1 from November to March: closures, mountain passes, winter tyres, daylight, wind warnings and how many days to allow.",
         "category": "Planning · Ring Road",
         "teaser": "Closures, tyres, daylight and how to plan a winter loop safely.",
-        "image": "hx-jokulsarlon-winter",
-        "image_alt": "Snow-dusted blue icebergs in Jökulsárlón below white mountains",
+        "image": "winter-road",
+        "image_alt": "A cleared two-lane road winding between snow-covered mountains under a grey winter sky",
         "stats": [
             ("~4 h", "Daylight in Reykjavík around the December solstice"),
             ("1 Nov–15 Apr", "Studded winter tyres on rental cars (Blue Car Rental)"),

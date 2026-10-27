@@ -34,6 +34,7 @@ SLOTS = {
     "quiet-maelifell-snow": "26985221-image.jpg",
     "checklist-black-beach": "059be267-image.jpg",
     "book-bg-guide": "book-bg-vestrahorn-beach.jpg",
+    "winter-road": "winter-road-mountains.jpg",
     "map-general": "is-map-01-iceland-general-nobar.jpg",
     "map-highlights": "is-map-02-iceland-highlights-nobar.jpg",
     "map-waterfalls": "is-map-03-iceland-waterfalls-nobar.jpg",
