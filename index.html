@@ -109,6 +109,8 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; color: var(--white); overflow: hidden; background: var(--night); }
 .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hero .bg { object-position: 50% 45%; }
+.hero picture { position: absolute; inset: 0; }
+@media (min-width: 761px) { .hero .bg { object-position: 50% 55% !important; } }
 .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 17, 22, 0.55) 0%, rgba(10, 17, 22, 0.05) 30%, rgba(10, 17, 22, 0.15) 60%, var(--night) 100%); }
 .shade.heavy { background: linear-gradient(180deg, var(--night) 0%, rgba(10, 17, 22, 0.45) 22%, rgba(10, 17, 22, 0.5) 78%, var(--night) 100%); }
 .shade.soft { background: linear-gradient(180deg, var(--night) 0%, rgba(10, 17, 22, 0.2) 22%, rgba(10, 17, 22, 0.3) 78%, var(--night) 100%); }
@@ -357,7 +359,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 
   <!-- HERO -->
   <section class="hero">
-    <img class="bg" src="assets/img/hero-vestrahorn-1800.jpg" srcset="assets/img/hero-vestrahorn-800.jpg 800w, assets/img/hero-vestrahorn-1800.jpg 1800w" sizes="100vw" alt="A walker in a blue jacket crossing grass-tufted black dunes below the jagged peaks of Vestrahorn" width="1416" height="2120" style="object-position: 50% 53%" fetchpriority="high">
+    <picture><source media="(min-width: 761px)" srcset="assets/img/hero-stokksnes-wide-800.jpg 800w, assets/img/hero-stokksnes-wide-1800.jpg 1800w" sizes="100vw"><img class="bg" src="assets/img/hero-vestrahorn-1800.jpg" srcset="assets/img/hero-vestrahorn-800.jpg 800w, assets/img/hero-vestrahorn-1800.jpg 1800w" sizes="100vw" alt="A walker in a blue jacket crossing grass-tufted black dunes below the jagged peaks of Vestrahorn" width="1416" height="2120" style="object-position: 50% 53%" data-x fetchpriority="high"></picture>
     <div class="shade"></div>
     <div class="container hero-inner">
       <p class="eyebrow light">The Iceland travel guide</p>

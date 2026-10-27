@@ -18,6 +18,7 @@ IMG = DIST / "assets" / "img"
 # Image slot used in index.html -> original photo in photos/
 SLOTS = {
     "hero-vestrahorn": "fef618d7-image.jpg",
+    "hero-stokksnes-wide": "0afb5021-image.jpg",
     "strip-maelifell": "b52705a6-image.jpg",
     "strip-braided-river": "750ddcac-image.jpg",
     "strip-studlagil": "f066c020-image.jpg",
