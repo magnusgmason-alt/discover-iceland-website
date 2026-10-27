@@ -72,7 +72,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "complete-guide.html", "robots.txt", "sitemap.xml"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "complete-guide.html", "robots.txt", "sitemap.xml", "og.jpg"]
 PAGE_DIRS = ["blog", "js", "places", "preview"]
 
 
