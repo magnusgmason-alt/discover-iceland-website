@@ -62,7 +62,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "robots.txt", "sitemap.xml"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "robots.txt", "sitemap.xml"]
 PAGE_DIRS = ["blog"]
 
 
@@ -100,6 +100,9 @@ def main():
     make_articles.main()
     import make_highlights
     make_highlights.main()
+    import make_aurora
+    make_aurora.main()
+    SLOTS.update(make_aurora.SLOTS)
     from highlights_content import HIGHLIGHTS
     for h in HIGHLIGHTS:
         SLOTS["hx-" + h["slug"]] = h["photo"]
