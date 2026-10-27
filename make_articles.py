@@ -89,6 +89,23 @@ ARTICLE_CSS = """
 .journal-card h3 a { text-decoration: none; }
 .journal-card h3 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
+
+/* Iceland: articles read on light paper; the hero photo dissolves into it */
+body.article { background: var(--paper); color: var(--ink); }
+.article .a-hero-inner { padding-bottom: 150px; }
+.article .a-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 130px; background: linear-gradient(180deg, rgba(245, 243, 238, 0), var(--paper)); }
+.article .a-hero .bg { -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
+.article .a-hero { background: var(--paper); }
+.article .a-hero .shade { background: linear-gradient(180deg, rgba(10, 17, 22, 0.6) 0%, rgba(10, 17, 22, 0.25) 35%, rgba(10, 17, 22, 0.75) 80%, rgba(10, 17, 22, 0) 100%); }
+.article .a-hero h1 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.01em; }
+.article .a-body h2 { color: var(--ink); }
+.article .a-body a { color: var(--ink); }
+.article .stat span { color: var(--white); }
+.article .callout { color: var(--ink); }
+.article .keep { background: var(--night); color: var(--frost); margin-top: 72px; padding-top: 88px; }
+.article .keep h2 { color: var(--frost); }
+.article .a-figure figcaption { color: var(--muted); }
+
 @media (max-width: 760px) {
   .a-hero { min-height: 62svh; }
   .a-body { padding-top: 40px; font-size: 1.02rem; }
@@ -197,7 +214,7 @@ def page(a, others):
 <script type="application/ld+json">{json.dumps(crumbs)}</script>
 <style>{STYLE}{ARTICLE_CSS}</style>
 </head>
-<body>
+<body class="article">
 {HEADER}
 <main id="top">
   <section class="a-hero">
