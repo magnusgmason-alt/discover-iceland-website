@@ -18,10 +18,10 @@ IMG = DIST / "assets" / "img"
 # Image slot used in index.html -> original photo in photos/
 SLOTS = {
     "hero-aurora-kirkjufell": "7ff801e8-image.jpg",
-    "strip-reykjavik": "b83d9893-image.jpg",
-    "strip-highlands-green": "c2ebf617-image.jpg",
-    "strip-studlagil": "ee6a05d7-image.jpg",
-    "strip-fjallsarlon": "29baff84-image.jpg",
+    "strip-vestrahorn": "920cb424-image.jpg",
+    "strip-braided-river": "750ddcac-image.jpg",
+    "strip-studlagil": "f066c020-image.jpg",
+    "strip-jokulsarlon": "d1daec0e-image.jpg",
     "editions-flag": "945438f5-image.jpg",
     "guide-seljalandsfoss-winter": "7cd62cb9-image.jpg",
     "fire-ice-river": "c875a826-image.jpg",
