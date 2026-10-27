@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-SITE = "https://discovericeland.org"
+SITE = "https://discovericeland.co"
 CHECKED = "October 2026"
 PUBLISHED = "2026-10-27"
 

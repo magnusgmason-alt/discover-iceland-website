@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://discovericeland.org/sitemap.xml
+Sitemap: https://discovericeland.co/sitemap.xml

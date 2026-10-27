@@ -1,6 +1,6 @@
 # Discover Iceland
 
-Landing page for discovericeland.org, hosted on Cloudflare Pages.
+Landing page for discovericeland.co, hosted on Cloudflare Pages.
 
 ## How it builds
 - `index.html` is the site.

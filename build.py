@@ -25,6 +25,7 @@ SLOTS = {
     "editions-flag": "945438f5-image.jpg",
     "guide-seljalandsfoss-winter": "7cd62cb9-image.jpg",
     "fire-ice-river": "c875a826-image.jpg",
+    "aurora-snow-valley": "d25c89a3-image.jpg",
     "journal-aurora-lake": "581dc034-image.jpg",
     "journal-reykjavik": "b83d9893-image.jpg",
     "journal-ring-road": "e16ddbb6-image.jpg",

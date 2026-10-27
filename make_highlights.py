@@ -10,7 +10,7 @@ from pathlib import Path
 from highlights_content import CATEGORIES, HIGHLIGHTS
 
 ROOT = Path(__file__).parent
-SITE = "https://discovericeland.org"
+SITE = "https://discovericeland.co"
 HERO = "hx-vestrahorn-mist"
 
 index = (ROOT / "index.html").read_text(encoding="utf8")

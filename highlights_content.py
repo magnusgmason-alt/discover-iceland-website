@@ -139,6 +139,16 @@ HIGHLIGHTS = [
      "photo": "581dc034-image.jpg", "alt": "Green northern lights over dark mountains reflected in a lake",
      "text": "Seen from about September to April on clear, dark nights. Check the Icelandic Met Office cloud forecast each evening."},
 
+    {"slug": "aurora-fjord", "name": "Aurora over the fjords", "region": "Westfjords & East", "cats": ["aurora"],
+     "photo": "76bc3cd2-image.jpg", "alt": "Green northern lights over a snowy ridge, reflected in a calm fjord",
+     "text": "Calm fjords double the show: on still nights the aurora is reflected in the water below the mountains."},
+    {"slug": "aurora-countryside", "name": "Aurora in the countryside", "region": "All of Iceland", "cats": ["aurora"],
+     "photo": "d1db2054-image.jpg", "alt": "Bright green northern lights above a dark hillside with two small cabins",
+     "text": "Stay a few nights in a countryside guesthouse or cabin, away from town lights, and step outside when the sky clears."},
+    {"slug": "aurora-winter", "name": "Winter aurora nights", "region": "All of Iceland", "cats": ["aurora"],
+     "photo": "60a4b5c0-image.jpg", "alt": "A green aurora curving down to a snowy horizon under a starry sky",
+     "text": "Deep winter brings the longest nights. Dress for hours standing still in the cold, and give your eyes time to adjust."},
+
     # Towns & history
     {"slug": "reykjavik", "name": "Reykjavík", "region": "Capital region", "cats": ["culture"],
      "photo": "b83d9893-image.jpg", "alt": "Reykjavík and Hallgrímskirkja across the bay under heavy cloud",

@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Discover Iceland · The Complete Iceland Travel Guide</title>
-<link rel="canonical" href="https://discovericeland.org/">
+<link rel="canonical" href="https://discovericeland.co/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Discover Iceland">
 <meta property="og:title" content="Discover Iceland · The Complete Iceland Travel Guide">
 <meta property="og:description" content="The complete travel guide to Iceland: regions, road trips, maps and planning, with summer, winter and northern lights editions.">
-<meta property="og:url" content="https://discovericeland.org/">
-<meta property="og:image" content="https://discovericeland.org/assets/img/hero-vestrahorn-1800.jpg">
+<meta property="og:url" content="https://discovericeland.co/">
+<meta property="og:image" content="https://discovericeland.co/assets/img/hero-vestrahorn-1800.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Discover Iceland: the complete travel guide to Iceland, with summer, winter and northern lights editions.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,500&amp;display=swap" rel="stylesheet">
@@ -489,6 +489,25 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     </div>
   </section>
 
+  <!-- NORTHERN LIGHTS -->
+  <section class="feature" id="aurora">
+    <div class="feature-media"><img src="assets/img/aurora-snow-valley-1800.jpg" srcset="assets/img/aurora-snow-valley-800.jpg 800w, assets/img/aurora-snow-valley-1800.jpg 1800w" sizes="100vw" alt="Green northern lights swirling over a snow-covered hillside under a starry sky" width="1800" height="1200" style="object-position: 45% 40%" loading="lazy" decoding="async"></div>
+    <div class="container feature-body">
+      <div class="feature-text">
+        <p class="eyebrow light">Northern lights</p>
+        <h2>When the sky comes alive.</h2>
+        <p class="lead">From about September to April, clear and dark nights can light up green over the whole island. You need three things: darkness, a clear sky and solar activity. The Icelandic Met Office publishes a cloud and aurora forecast every evening, and a few nights away from town lights give you the best chance.</p>
+        <a class="link-arrow" href="/blog/best-time-to-visit-iceland">When to see them →</a>
+        <ul class="spots">
+          <li><strong>Season</strong><span>Late August to mid-April, darkest from November to February.</span></li>
+          <li><strong>Where</strong><span>Anywhere dark: Snæfellsnes, the south coast, the north.</span></li>
+          <li><strong>Forecast</strong><span>Check cloud cover first, then the aurora activity.</span></li>
+          <li><strong>The guide</strong><span>A full Northern Lights edition is on the way.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- JOURNAL -->
   <section class="section deep" id="journal">
     <div class="container">
@@ -786,7 +805,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ email: email, source: "discovericeland.org" })
+      body: JSON.stringify({ email: email, source: "discovericeland.co" })
     }).then(function (r) {
       if (!r.ok) throw new Error("bad status");
       form.reset();
