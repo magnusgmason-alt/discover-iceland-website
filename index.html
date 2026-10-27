@@ -207,11 +207,17 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .card-body em { display: block; font-style: normal; font-size: 0.84rem; opacity: 0.85; margin-top: 6px; }
 
 /* Map */
-.map { width: 100%; max-width: 700px; height: auto; margin: 36px auto 0; display: block; }
-.map .range { fill: rgba(159, 212, 226, 0.06); stroke: var(--glacier); stroke-width: 1.5; stroke-dasharray: 2 6; stroke-linecap: round; }
-.map .route path { fill: none; stroke: rgba(232, 238, 241, 0.35); stroke-width: 2; }
-.map .pin circle { fill: var(--red); stroke: var(--night); stroke-width: 3; }
-.map .pin text { font: 700 14px var(--sans); fill: var(--frost); }
+.map-tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 36px 0 26px; }
+.map-tab { background: transparent; color: var(--frost); border: 1px solid rgba(232, 238, 241, 0.3); border-radius: 999px; padding: 9px 16px; font: 600 0.72rem var(--sans); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.map-tab:hover { border-color: var(--frost); }
+.map-tab[aria-selected="true"] { background: var(--frost); color: var(--night); border-color: var(--frost); }
+.map-panel { margin: 0; }
+.map-panel[hidden] { display: none; }
+.map-panel a { display: block; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); cursor: zoom-in; }
+.map-panel img { width: 100%; }
+.map-panel figcaption { color: var(--mist); font-size: 0.9rem; max-width: 70ch; margin: 18px auto 0; text-align: center; }
+.map-open { opacity: 0.7; }
+@media (max-width: 760px) { .map-tabs { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; margin-left: -24px; margin-right: -24px; padding: 0 24px; scrollbar-width: none; } .map-tab { flex: none; } }
 
 /* Books */
 .book-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px); margin-top: 56px; text-align: center; }
@@ -312,7 +318,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
       <div class="dropdown">
         <button class="dropdown-btn" aria-haspopup="true" aria-expanded="false">Regions <span aria-hidden="true">▾</span></button>
         <div class="dropdown-menu">
-          <a href="#map">All regions</a>
+          <a href="#map">All maps</a>
           <a href="#map">Reykjavík</a>
           <a href="#map">Golden Circle</a>
           <a href="#map">South Coast</a>
@@ -607,21 +613,37 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 
   <!-- MAP -->
   <section class="section deep" id="map">
-    <div class="container narrow center">
-      <p class="eyebrow">The island</p>
-      <h2>Six regions, one Ring Road.</h2>
-      <svg class="map" viewBox="0 0 640 420" role="img" aria-label="Schematic map of six Iceland regions and the Ring Road">
-        <title>Schematic map of Iceland regions</title>
-        <path class="range" d="M88 70 C120 52 165 58 182 84 C196 104 210 112 236 104 C262 82 300 72 330 84 C352 64 392 58 424 74 C450 60 492 66 512 92 C548 98 584 132 580 170 C598 204 584 246 552 270 C520 298 466 328 410 342 C364 354 312 352 270 338 C238 330 214 322 196 306 C180 300 160 306 146 296 C138 284 154 274 172 270 C162 258 140 254 118 248 C108 238 128 228 152 226 C138 214 108 210 92 202 C84 190 104 182 128 180 C112 168 92 162 86 150 C78 136 98 128 112 126 C94 116 74 104 72 90 C72 80 80 74 88 70 Z"/>
-        <g class="route"><path d="M186 266 C220 280 260 300 300 318 C350 336 410 330 470 300 C520 276 552 236 548 196 C544 158 506 136 460 134 C420 132 390 138 370 146 C330 160 290 170 250 190 C220 206 200 226 186 266"/></g>
-        <g class="pin"><circle cx="186" cy="266" r="8"/><text x="72" y="290">Reykjavík</text></g>
-        <g class="pin"><circle cx="246" cy="236" r="8"/><text x="262" y="240">Golden Circle</text></g>
-        <g class="pin"><circle cx="330" cy="330" r="8"/><text x="282" y="374">South Coast</text></g>
-        <g class="pin"><circle cx="150" cy="204" r="8"/><text x="22" y="200">Snæfellsnes</text></g>
-        <g class="pin"><circle cx="400" cy="140" r="8"/><text x="372" y="118">North Iceland</text></g>
-        <g class="pin"><circle cx="130" cy="110" r="8"/><text x="108" y="44">Westfjords</text></g>
-      </svg>
-      <p class="fine">Schematic map, not to scale. The grey line is Route 1, the Ring Road.</p>
+    <div class="container">
+      <div class="center narrow">
+        <p class="eyebrow">The maps</p>
+        <h2>One island, mapped.</h2>
+        <p class="lead center">Pick a map: the Ring Road, the highlights, waterfalls, glaciers, hiking trails or the Golden Circle.</p>
+      </div>
+      <div class="map-tabs" role="tablist" aria-label="Iceland maps"><button class="map-tab" type="button" role="tab" aria-selected="true" aria-controls="map-general" id="tab-general">The island</button><button class="map-tab" type="button" role="tab" aria-selected="false" aria-controls="map-highlights" id="tab-highlights">Highlights</button><button class="map-tab" type="button" role="tab" aria-selected="false" aria-controls="map-waterfalls" id="tab-waterfalls">Waterfalls</button><button class="map-tab" type="button" role="tab" aria-selected="false" aria-controls="map-glaciers" id="tab-glaciers">Glaciers & ice</button><button class="map-tab" type="button" role="tab" aria-selected="false" aria-controls="map-hiking" id="tab-hiking">Hiking</button><button class="map-tab" type="button" role="tab" aria-selected="false" aria-controls="map-golden-circle" id="tab-golden-circle">Golden Circle</button></div>
+        <figure class="map-panel" role="tabpanel" id="map-general" aria-labelledby="tab-general">
+          <a href="assets/img/map-general-2800.jpg" target="_blank" rel="noopener" aria-label="Open the the island map full size"><img src="assets/img/map-general-1800.jpg" srcset="assets/img/map-general-800.jpg 800w, assets/img/map-general-1800.jpg 1800w, assets/img/map-general-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: Iceland with the Ring Road, towns and glaciers" width="1800" height="1309" loading="lazy" decoding="async"></a>
+          <figcaption>Route 1, the Ring Road, runs about 1,322 km around the island and links most towns. Glaciers cover about a tenth of the land. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
+        <figure class="map-panel" role="tabpanel" id="map-highlights" aria-labelledby="tab-highlights" hidden>
+          <a href="assets/img/map-highlights-2800.jpg" target="_blank" rel="noopener" aria-label="Open the highlights map full size"><img src="assets/img/map-highlights-1800.jpg" srcset="assets/img/map-highlights-800.jpg 800w, assets/img/map-highlights-1800.jpg 1800w, assets/img/map-highlights-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: Iceland's main highlights marked across the island" width="1800" height="1309" loading="lazy" decoding="async"></a>
+          <figcaption>The places most first trips are built around, from the Golden Circle to the glacier lagoons and the north. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
+        <figure class="map-panel" role="tabpanel" id="map-waterfalls" aria-labelledby="tab-waterfalls" hidden>
+          <a href="assets/img/map-waterfalls-2800.jpg" target="_blank" rel="noopener" aria-label="Open the waterfalls map full size"><img src="assets/img/map-waterfalls-1800.jpg" srcset="assets/img/map-waterfalls-800.jpg 800w, assets/img/map-waterfalls-1800.jpg 1800w, assets/img/map-waterfalls-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: Iceland's best-known waterfalls marked on the map" width="1800" height="1309" loading="lazy" decoding="async"></a>
+          <figcaption>The big waterfalls by region. Most of the famous ones are within sight of the Ring Road. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
+        <figure class="map-panel" role="tabpanel" id="map-glaciers" aria-labelledby="tab-glaciers" hidden>
+          <a href="assets/img/map-glaciers-2800.jpg" target="_blank" rel="noopener" aria-label="Open the glaciers & ice map full size"><img src="assets/img/map-glaciers-1800.jpg" srcset="assets/img/map-glaciers-800.jpg 800w, assets/img/map-glaciers-1800.jpg 1800w, assets/img/map-glaciers-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: Glaciers, ice caves and glacier hikes marked on the map" width="1800" height="1309" loading="lazy" decoding="async"></a>
+          <figcaption>Ice caves, glacier hikes and lagoons. Ice caves and glacier walks are always with a licensed guide. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
+        <figure class="map-panel" role="tabpanel" id="map-hiking" aria-labelledby="tab-hiking" hidden>
+          <a href="assets/img/map-hiking-2800.jpg" target="_blank" rel="noopener" aria-label="Open the hiking map full size"><img src="assets/img/map-hiking-1800.jpg" srcset="assets/img/map-hiking-800.jpg 800w, assets/img/map-hiking-1800.jpg 1800w, assets/img/map-hiking-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: Iceland's hiking trails and walks marked on the map" width="1800" height="1309" loading="lazy" decoding="async"></a>
+          <figcaption>Day hikes and multi-day treks. Highland trails such as Laugavegur open only in summer. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
+        <figure class="map-panel" role="tabpanel" id="map-golden-circle" aria-labelledby="tab-golden-circle" hidden>
+          <a href="assets/img/map-golden-circle-2800.jpg" target="_blank" rel="noopener" aria-label="Open the golden circle map full size"><img src="assets/img/map-golden-circle-1800.jpg" srcset="assets/img/map-golden-circle-800.jpg 800w, assets/img/map-golden-circle-1800.jpg 1800w, assets/img/map-golden-circle-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map: The Golden Circle route from Reykjavík via Þingvellir, Geysir and Gullfoss" width="1800" height="983" loading="lazy" decoding="async"></a>
+          <figcaption>The classic day loop from Reykjavík: Þingvellir, Geysir and Gullfoss, with stops like Kerið and hot springs. <span class="map-open">Tap the map to open it full size.</span></figcaption>
+        </figure>
     </div>
   </section>
 
@@ -778,6 +800,18 @@ h3 { font-size: 1.5rem; font-weight: 800; }
       nav.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
     }
+  });
+
+  // Map tabs
+  var mapTabs = document.querySelectorAll(".map-tab");
+  mapTabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      mapTabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
   });
 
   // Footer year

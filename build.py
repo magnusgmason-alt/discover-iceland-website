@@ -32,6 +32,12 @@ SLOTS = {
     "seasons-coast": "95ba1c86-image.jpg",
     "quiet-maelifell-snow": "26985221-image.jpg",
     "checklist-black-beach": "059be267-image.jpg",
+    "map-general": "is-map-01-iceland-general-nobar.jpg",
+    "map-highlights": "is-map-02-iceland-highlights-nobar.jpg",
+    "map-waterfalls": "is-map-03-iceland-waterfalls-nobar.jpg",
+    "map-glaciers": "is-map-04-iceland-glaciers-nobar.jpg",
+    "map-hiking": "is-map-05-iceland-hiking-nobar.jpg",
+    "map-golden-circle": "is-map-06-iceland-golden-circle-nobar.jpg",
     "guides-braided-river": "f1655396-image.jpg",
     "hl-gullfoss": "6c6db642-image.jpg",
     "hl-geysir": "ad4609b3-image.jpg",
@@ -105,7 +111,7 @@ def main():
 
     for slot, photo in SLOTS.items():
         with Image.open(PHOTOS / photo) as im:
-            save_sizes(im, slot, (800, 1800))
+            save_sizes(im, slot, (800, 1800, 2800) if slot.startswith("map-") else (800, 1800))
         print("photo", slot)
 
     for name, subtitle in COVERS.items():
