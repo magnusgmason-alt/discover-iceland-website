@@ -9,7 +9,8 @@ import json
 import re
 from pathlib import Path
 
-from highlights_content import CATEGORIES, HIGHLIGHTS
+from highlights_content import CATEGORIES
+from places_all import all_places
 
 ROOT = Path(__file__).parent
 SITE = "https://discovericeland.co"
@@ -113,9 +114,9 @@ body.mp-page .site-header { background: rgba(10, 17, 22, 0.96); box-shadow: 0 1p
 
 def main():
     cats = dict(CATEGORIES)
-    items = [h for h in HIGHLIGHTS if h.get("ll")]
+    items = sorted(all_places(), key=lambda p: p["name"])
     lis = "".join(
-        f'<li class="mp-item" data-slug="{h["slug"]}"><img src="/assets/img/hx-{h["slug"]}-800.jpg" alt="" loading="lazy" decoding="async">'
+        f'<li class="mp-item" data-slug="{h["slug"]}"><img src="/assets/img/{h["img"]}-800.jpg" alt="" loading="lazy" decoding="async">'
         f'<div><a href="/places/{h["slug"]}">{html.escape(h["name"])}</a><small>{html.escape(h["region"])} · {html.escape(cats.get(h["cats"][0], ""))}</small></div>'
         f'<button type="button" class="mp-add" aria-pressed="false" aria-label="Add {html.escape(h["name"])} to my trip">+</button></li>'
         for h in items

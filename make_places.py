@@ -9,8 +9,8 @@ import math
 import re
 from pathlib import Path
 
-from highlights_content import CATEGORIES, HIGHLIGHTS
-from places_content import PLACES
+from highlights_content import CATEGORIES
+from places_all import all_places
 
 ROOT = Path(__file__).parent
 SITE = "https://discovericeland.co"
@@ -38,6 +38,9 @@ SCRIPT = SCRIPT.split("// Checklist sign-up")[0] + "\n})();"
 LABELS = dict(CATEGORIES)
 
 PAGE_CSS = """
+.pl-maphero .bg { opacity: .78; filter: saturate(.85); object-position: 68% 42%; }
+.pl-maphero .shade { background: linear-gradient(90deg, rgba(10,17,22,.92) 0%, rgba(10,17,22,.7) 38%, rgba(10,17,22,.1) 70%), linear-gradient(180deg, rgba(10,17,22,.5) 0%, rgba(10,17,22,0) 30%, rgba(10,17,22,.6) 80%, var(--night) 100%) !important; }
+
 .pl-reads a { color: var(--glacier); text-underline-offset: 3px; }
 /* Place pages */
 .pl-hero { position: relative; min-height: 78svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--night); color: var(--white); }
@@ -93,19 +96,19 @@ def km(a, b):
 
 def main():
     OUT.mkdir(exist_ok=True)
-    mapped = [h for h in HIGHLIGHTS if h.get("ll") and h["slug"] in PLACES]
+    mapped = all_places()
     for h in mapped:
-        p = PLACES[h["slug"]]
+        p = h["content"]
         slug = h["slug"]
         url = f"{SITE}/places/{slug}"
-        img = f"hx-{slug}"
+        img = h["img"]
         near = sorted((x for x in mapped if x is not h), key=lambda x: km(h["ll"], x["ll"]))[:3]
         tags = "".join(f'<a href="/highlights#{c}">{html.escape(LABELS[c])}</a>' for c in h["cats"])
         intro = "".join(f"<p>{html.escape(t)}</p>" for t in p["intro"])
         tips = "".join(f"<li>{html.escape(t)}</li>" for t in p["tips"])
         facts = "".join(f"<dt>{html.escape(k)}</dt><dd>{html.escape(v)}</dd>" for k, v in p["facts"])
         near_html = "".join(
-            f"""<li class="hx"><a href="/places/{n['slug']}"><span class="hx-img"><img src="/assets/img/hx-{n['slug']}-800.jpg" alt="{html.escape(n['alt'])}" loading="lazy" decoding="async"{' style="object-position: ' + n['pos'] + '"' if n.get('pos') else ''}></span>
+            f"""<li class="hx"><a href="/places/{n['slug']}"><span class="hx-img"><img src="/assets/img/{n['img']}-800.jpg" alt="{html.escape(n['alt'])}" loading="lazy" decoding="async"{' style="object-position: ' + n['pos'] + '"' if n.get('pos') else ''}></span>
             <span class="hx-region">{html.escape(n['region'])}</span><h3>{html.escape(n['name'])}</h3><span class="km">About {round(km(h['ll'], n['ll']))} km away, as the crow flies</span></a></li>"""
             for n in near
         )
@@ -119,6 +122,9 @@ def main():
         if reads:
             items = "".join(f'<li><a href="/blog/{a["slug"]}">{html.escape(a["short"])}</a></li>' for a in reads[:5])
             reads_html = f'<h2>Read more in the journal</h2><ul class="pl-reads">{items}</ul>'
+        srcs = p.get("sources") or []
+        if srcs:
+            reads_html += '<p class="pl-note">Sources: ' + ", ".join(f'<a href="{html.escape(u)}" rel="noopener">{html.escape(t)}</a>' for t, u in srcs) + ". Facts checked October 2026.</p>"
         title = f"{h['name']}, Iceland: How to Visit, When to Go and Tips"
         desc = f"{h['text']} How to get to {h['name']}, the best time to visit and practical tips."
         ld = [
@@ -155,7 +161,7 @@ def main():
 <body>
 {HEADER}
 <main id="top">
-  <section class="pl-hero">
+  <section class="pl-hero{' pl-maphero' if h.get('maphero') else ''}">
     <img class="bg" src="/assets/img/{img}-1800.jpg" srcset="/assets/img/{img}-800.jpg 800w, /assets/img/{img}-1800.jpg 1800w" sizes="100vw" alt="{html.escape(h['alt'])}"{pos} fetchpriority="high">
     <div class="shade"></div>
     <div class="container">

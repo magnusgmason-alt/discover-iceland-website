@@ -153,6 +153,17 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:60]
 
 
+def topic_list(a):
+    """On a topic's main guide, list every other guide in that topic."""
+    if not a.get("pillar"):
+        return ""
+    sib = [o for o in ARTICLES if o["cluster"] == a["cluster"] and o is not a]
+    if not sib:
+        return ""
+    items = "".join(f'<li><a href="/blog/{o["slug"]}">{html.escape(o["short"])}</a></li>' for o in sib)
+    return f'<h2 id="more-guides">Every guide in this topic: {html.escape(CLUSTER_NAMES[a["cluster"]])}</h2><ul>{items}</ul>'
+
+
 def page(a, others):
     body = a["body"].strip()
     live = {o["slug"] for o in ARTICLES}
@@ -238,6 +249,7 @@ def page(a, others):
   </section>
   <article class="a-body">
     {body}
+    {topic_list(a)}
     <p class="checked">{a['checked_note']}</p>
     <div class="sources"><h2>Sources</h2><ul>{sources}</ul></div>
   </article>

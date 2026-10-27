@@ -9,6 +9,11 @@ from pathlib import Path
 
 from highlights_content import CATEGORIES, HIGHLIGHTS
 from places_content import PLACES
+from places_all import parent_url
+
+
+def guide_url(slug):
+    return "/places/" + slug if slug in PLACES else parent_url(slug)
 
 ROOT = Path(__file__).parent
 SITE = "https://discovericeland.co"
@@ -135,7 +140,7 @@ def main():
         tags = "".join(f"<span>{html.escape(labels[c])}</span>" for c in h["cats"])
         cards.append(f"""      <li class="hx" id="{h['slug']}" data-cats="{' '.join(h['cats'])}">
         <div class="hx-img"><img src="/assets/img/{s}-800.jpg" srcset="/assets/img/{s}-800.jpg 800w, /assets/img/{s}-1800.jpg 1800w" sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw" alt="{html.escape(h['alt'])}"{' style="object-position: ' + h['pos'] + '"' if h.get('pos') else ''} loading="lazy" decoding="async"><div class="hx-tags">{tags}</div></div>
-        <div class="hx-body"><p class="hx-region">{html.escape(h['region'])}</p><h2>{('<a href="/places/' + h['slug'] + '">' + html.escape(h['name']) + '</a>') if h['slug'] in PLACES else html.escape(h['name'])}</h2><p>{html.escape(h['text'])}</p>{('<a class="link-arrow" href="/places/' + h['slug'] + '">Read the guide →</a>') if h['slug'] in PLACES else ''}</div>
+        <div class="hx-body"><p class="hx-region">{html.escape(h['region'])}</p><h2>{('<a href="' + guide_url(h['slug']) + '">' + html.escape(h['name']) + '</a>') if guide_url(h['slug']) else html.escape(h['name'])}</h2><p>{html.escape(h['text'])}</p>{('<a class="link-arrow" href="' + guide_url(h['slug']) + '">Read the guide →</a>') if guide_url(h['slug']) else ''}</div>
       </li>""")
     ld = {
         "@context": "https://schema.org",

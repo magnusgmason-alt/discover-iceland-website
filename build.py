@@ -46,6 +46,8 @@ SLOTS = {
     "map-ring-road": "is-map-09-iceland-ring-road-7-days-nobar.jpg",
     "map-westfjords": "is-map-11-iceland-westfjords.jpg",
     "map-wildlife": "is-map-12-iceland-wildlife-nobar.jpg",
+    "map-snaefellsnes": "is-map-10-iceland-snaefellsnes-nobar.jpg",
+    "map-south-coast": "is-map-13-iceland-south-coast-nobar.jpg",
     "guides-braided-river": "f1655396-image.jpg",
     "hl-gullfoss": "6c6db642-image.jpg",
     "hl-geysir": "ad4609b3-image.jpg",
@@ -117,16 +119,24 @@ def main():
     import make_places
     place_slugs = set(make_places.main())
     from highlights_content import CATEGORIES as HC, HIGHLIGHTS
+    from places_all import all_places, map_crop, EXTRA_PHOTOS
+    places = all_places()
     (DIST / "assets").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "map-data.json").write_text(json.dumps({
         "categories": HC,
-        "items": [{"slug": h["slug"], "name": h["name"], "region": h["region"], "cats": h["cats"], "ll": h["ll"],
-                   "img": f"/assets/img/hx-{h['slug']}-800.jpg", "alt": h["alt"], "text": h["text"],
-                   "url": f"/places/{h['slug']}" if h["slug"] in place_slugs else f"/highlights#{h['slug']}"}
-                  for h in HIGHLIGHTS if h.get("ll")]}, ensure_ascii=False), encoding="utf8")
-    from highlights_content import HIGHLIGHTS
+        "items": [{"slug": p["slug"], "name": p["name"], "region": p["region"], "cats": p["cats"], "ll": p["ll"],
+                   "img": f"/assets/img/{p['img']}-800.jpg", "alt": p["alt"], "text": p["text"],
+                   "url": f"/places/{p['slug']}"} for p in places]}, ensure_ascii=False), encoding="utf8")
     for h in HIGHLIGHTS:
         SLOTS["hx-" + h["slug"]] = h["photo"]
+    for slug, photo in EXTRA_PHOTOS.items():
+        SLOTS["px-" + slug] = photo
+    with Image.open(PHOTOS / "is-map-02-iceland-highlights-nobar.jpg") as base:
+        base.load()
+        for p in places:
+            if p["maphero"]:
+                save_sizes(map_crop(base, *p["ll"]), p["img"], (800, 1800))
+                print("map crop", p["slug"])
 
     sm = (ROOT / "sitemap.xml").read_text()
     urls = ["/journal", "/map"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]

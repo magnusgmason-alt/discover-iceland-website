@@ -177,6 +177,8 @@ ARTICLES = [
 <p>In one day from Reykjavík you can comfortably see Seljalandsfoss, Gljúfrabúi, Skógafoss and Kvernufoss, and still add a black-sand beach. These four are the core of the South Coast. Svartifoss in Skaftafell is also a South Coast waterfall, but it is 140 km beyond Vík, so it belongs on a two-day trip.</p>
 <p>Seljalandsfoss and Gljúfrabúi share a car park. Skógafoss and Kvernufoss share the village of Skógar. That means only two real stops, each with a walk, which keeps the day relaxed even with short winter light.</p>
 """ + _map("Map of Iceland's main waterfalls, including Seljalandsfoss and Skógafoss on the South Coast", "The South Coast waterfalls sit together on Route 1 east of Reykjavík.") + """
+<figure class="a-figure a-map"><a href="/assets/img/map-south-coast-2800.jpg" target="_blank" rel="noopener"><img src="/assets/img/map-south-coast-1800.jpg" srcset="/assets/img/map-south-coast-800.jpg 800w, /assets/img/map-south-coast-1800.jpg 1800w" sizes="(min-width: 800px) 760px, 100vw" alt="Detailed map of Iceland's South Coast with Seljalandsfoss, Skógafoss, Systrafoss, Foss á Síðu and Svartifoss marked" loading="lazy" decoding="async"></a><figcaption>The South Coast in detail: Seljalandsfoss and Gljúfrabúi (1), Skógafoss (3), Systrafoss (10), Foss á Síðu (11) and Svartifoss in Skaftafell (12), all close to Route 1. Tap to open full size.</figcaption></figure>
+""" + """
 <h2>What is the best one-day route?</h2>
 <p>Drive east on Route 1 and work your way along the coast. Times are for good summer conditions and do not include stops.</p>
 <div class="table-wrap"><table>
