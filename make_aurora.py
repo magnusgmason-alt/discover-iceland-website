@@ -36,6 +36,7 @@ SLOTS = {
     "nl-winter-arc": "60a4b5c0-image.jpg",
     "nl-kirkjufell": "7ff801e8-image.jpg",
     "nl-lake": "581dc034-image.jpg",
+    "nl-curtain": "3669b91f-image.jpg",
 }
 
 
@@ -74,7 +75,8 @@ PAGE_CSS = """
 .nl-crumbs { font-size: 0.78rem; margin-bottom: 18px; opacity: 0.85; }
 .nl-crumbs a { text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
 .nl-stats { margin-top: 10px; }
-.nl-prose { max-width: 760px; margin: 0 auto; }
+.nl-prose { max-width: 820px; margin: 0 auto; }
+.nl-prose > p, .nl-prose > ul, .nl-box ul { font-size: 1.1rem; }
 .nl-prose p { color: var(--mist); font-size: 1.04rem; line-height: 1.75; }
 .nl-prose h2 { margin-bottom: 18px; }
 .nl-prose ul { color: var(--mist); padding-left: 1.2em; line-height: 1.75; }
@@ -89,7 +91,8 @@ PAGE_CSS = """
 .nl-gallery img { width: 100%; height: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
 .nl-gallery img:first-child { aspect-ratio: auto; }
 .nl-graphics { display: grid; gap: 28px; margin-top: 30px; }
-.nl-graphic { width: 100%; height: auto; display: block; border-radius: var(--radius); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45); }
+.nl-graphic { width: 100%; height: auto; display: block; overflow: hidden; }
+.nl-sci-row:not(.reverse) .nl-graphic { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%); mask-image: linear-gradient(90deg, transparent 0, #000 12%); }
 .nl-graphic text { font-family: Montserrat, system-ui, sans-serif; fill: var(--frost); }
 .nl-graphic .t-name { font-weight: 800; font-size: 22px; letter-spacing: 0.14em; }
 .nl-graphic .t-body { font-size: 19px; }
@@ -100,6 +103,24 @@ PAGE_CSS = """
 .nl-graphic .t-small { font-size: 15px; fill: rgba(232, 238, 241, 0.7); }
 .nl-graphic .t-dark { fill: #3a1408; font-weight: 800; }
 .nl-graphic-cap { color: var(--mist); font-size: 0.85rem; margin: 10px 0 0; }
+.nl-sci { padding: clamp(70px, 9vw, 120px) 0; background: radial-gradient(60% 50% at 70% 30%, rgba(60, 240, 140, 0.07), transparent 70%), radial-gradient(50% 40% at 25% 80%, rgba(196, 92, 255, 0.06), transparent 70%), var(--night); }
+.nl-sci-row { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
+.nl-sci-row + .nl-sci-row { margin-top: clamp(80px, 10vw, 140px); }
+.nl-sci-row.reverse { grid-template-columns: 1.2fr 0.8fr; }
+.nl-sci-row.reverse .nl-sci-text { order: 2; }
+.nl-sci-fig { margin: 0; }
+@media (max-width: 900px) {
+  .nl-sci-row, .nl-sci-row.reverse { grid-template-columns: 1fr; }
+  .nl-sci-row.reverse .nl-sci-text { order: 0; }
+}
+.nl-need { position: relative; overflow: hidden; background: var(--night); padding: clamp(80px, 10vw, 130px) 0 clamp(260px, 30vw, 420px); }
+.nl-need-bg { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 85%; object-fit: cover; object-position: 50% 60%; -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 35%, #000 70%); mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 35%, #000 70%); }
+.nl-need-shade { position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, rgba(10, 17, 22, 0.75) 45%, rgba(10, 17, 22, 0.15) 80%, var(--night) 100%); }
+.nl-need .container { position: relative; }
+.nl-big p { font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: rgba(232, 238, 241, 0.86); }
+.nl-big ul { font-size: clamp(1.08rem, 1.45vw, 1.25rem); color: rgba(232, 238, 241, 0.86); }
+.nl-big h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
+.nl-sci .lead { font-size: clamp(1.08rem, 1.45vw, 1.25rem); }
 .nl-faq details { border-bottom: 1px solid var(--line); padding: 18px 0; }
 .nl-faq summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
 .nl-faq summary::-webkit-details-marker { display: none; }
@@ -187,8 +208,10 @@ def main():
     </div>
   </section>
 
-  <section class="section light">
-    <div class="nl-prose container">
+  <section class="nl-need">
+    {img("nl-curtain", "", cls="nl-need-bg")}
+    <div class="nl-need-shade"></div>
+    <div class="nl-prose container nl-big">
       <p class="eyebrow">What you need</p>
       <h2>Dark. Clear. Active.</h2>
       <p>The northern lights happen when particles from the sun hit the upper atmosphere and make it glow, mostly green. Iceland sits right under the band where this happens most, so the lights are overhead on many nights. You just need three things to line up:</p>
@@ -200,13 +223,15 @@ def main():
     </div>
   </section>
 
-  <section class="section light" id="science">
-    <div class="nl-prose container">
-      <p class="eyebrow">The science</p>
-      <h2>Why the sky glows.</h2>
-      <p>The sun sends out a constant stream of charged particles called the solar wind. Earth's magnetic field steers some of them towards the poles, into a ring around each one called the auroral oval. There they collide with oxygen and nitrogen high in the atmosphere, which give off light. The gas and the height decide the colour.</p>
-      <div class="nl-graphics">
-        <figure style="margin:0"><svg class="nl-graphic" viewBox="0 0 960 440" role="img" aria-labelledby="g2t g2d">
+  <section class="nl-sci" id="science">
+    <div class="container nl-sci-row">
+      <div class="nl-sci-text">
+        <p class="eyebrow">The science</p>
+        <h2>Why the sky glows.</h2>
+        <p class="lead">The sun sends out a constant stream of charged particles, the solar wind. Earth's magnetic field steers some of them towards the poles, into a ring called the auroral oval.</p>
+        <p class="lead">Iceland sits right under that ring, which is why the lights are overhead on so many dark nights.</p>
+      </div>
+      <figure class="nl-sci-fig"><svg class="nl-graphic" viewBox="0 0 960 440" role="img" aria-labelledby="g2t g2d">
   <title id="g2t">How the northern lights form</title>
   <desc id="g2d">The sun sends out the solar wind, a stream of electrons and protons. Earth's magnetic field guides some of them towards the poles, where they hit the upper atmosphere in a ring called the auroral oval and make it glow.</desc>
   <defs>
@@ -215,9 +240,9 @@ def main():
     <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9fd4e2"/></marker>
   </defs>
-  <rect width="960" height="440" rx="6" fill="#0d1820"/>
+  
   <circle cx="-40" cy="220" r="230" fill="url(#sun)"/>
-  <text x="40" y="215" class="t-label t-dark">The sun</text>
+  <text x="105" y="225" class="t-label t-dark">The sun</text>
   <g fill="none" stroke="#9fd4e2" stroke-width="2.2" marker-end="url(#arr)" opacity="0.9">
     <path d="M230 90 C420 90 560 110 700 150"/>
     <path d="M240 150 C430 150 560 160 690 180"/>
@@ -243,13 +268,20 @@ def main():
   </g>
   <text x="905" y="128" class="t-label" text-anchor="end">Auroral oval</text>
   <text x="925" y="352" class="t-small" text-anchor="end">Magnetic field</text>
-  <text x="40" y="410" class="t-small">Iceland sits right under the northern auroral oval, which is why the lights are overhead on so many dark nights.</text>
-</svg><figcaption class="nl-graphic-cap">How the northern lights form.</figcaption></figure>
-        <figure style="margin:0"><svg class="nl-graphic" viewBox="0 0 960 680" role="img" aria-labelledby="g1t g1d">
+</svg></figure>
+    </div>
+    <div class="container nl-sci-row reverse">
+      <div class="nl-sci-text">
+        <p class="eyebrow">The colours</p>
+        <h2>Why mostly green?</h2>
+        <p class="lead">When the particles hit the upper atmosphere, oxygen and nitrogen give off light. The gas and the height decide the colour.</p>
+        <p class="lead">Green, from oxygen at 100–240 km, is the one you will see most. Red, purple and blue appear in stronger displays.</p>
+      </div>
+      <figure class="nl-sci-fig"><svg class="nl-graphic" viewBox="0 0 960 680" role="img" aria-labelledby="g1t g1d">
   <title id="g1t">Northern lights colours and their altitude</title>
   <desc id="g1d">Red aurora comes from oxygen above about 240 km, green from oxygen between about 100 and 240 km, purple from nitrogen around 100 km and blue from nitrogen below about 100 km.</desc>
   <defs><linearGradient id="g-red" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff4d5e" stop-opacity="0.95"/><stop offset="0.55" stop-color="#ff4d5e" stop-opacity="0.35"/><stop offset="1" stop-color="#ff4d5e" stop-opacity="0"/></linearGradient><linearGradient id="g-green" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3cf08c" stop-opacity="0.95"/><stop offset="0.55" stop-color="#3cf08c" stop-opacity="0.35"/><stop offset="1" stop-color="#3cf08c" stop-opacity="0"/></linearGradient><linearGradient id="g-purple" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#c45cff" stop-opacity="0.95"/><stop offset="0.55" stop-color="#c45cff" stop-opacity="0.35"/><stop offset="1" stop-color="#c45cff" stop-opacity="0"/></linearGradient><linearGradient id="g-blue" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3d8bff" stop-opacity="0.95"/><stop offset="0.55" stop-color="#3d8bff" stop-opacity="0.35"/><stop offset="1" stop-color="#3d8bff" stop-opacity="0"/></linearGradient><mask id="rays" maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="680"><rect width="960" height="680" fill="#fff" opacity="0.55"/><rect x="508" y="0" width="3" height="680" fill="#fff"/><rect x="522" y="0" width="6" height="680" fill="#fff"/><rect x="541" y="0" width="2" height="680" fill="#fff"/><rect x="556" y="0" width="8" height="680" fill="#fff"/><rect x="578" y="0" width="3" height="680" fill="#fff"/><rect x="592" y="0" width="5" height="680" fill="#fff"/><rect x="612" y="0" width="2" height="680" fill="#fff"/><rect x="626" y="0" width="7" height="680" fill="#fff"/><rect x="648" y="0" width="3" height="680" fill="#fff"/><rect x="664" y="0" width="4" height="680" fill="#fff"/><rect x="684" y="0" width="8" height="680" fill="#fff"/><rect x="706" y="0" width="2" height="680" fill="#fff"/><rect x="720" y="0" width="5" height="680" fill="#fff"/><rect x="738" y="0" width="3" height="680" fill="#fff"/><rect x="752" y="0" width="7" height="680" fill="#fff"/><rect x="774" y="0" width="2" height="680" fill="#fff"/><rect x="788" y="0" width="5" height="680" fill="#fff"/><rect x="806" y="0" width="3" height="680" fill="#fff"/><rect x="820" y="0" width="8" height="680" fill="#fff"/><rect x="842" y="0" width="2" height="680" fill="#fff"/><rect x="856" y="0" width="5" height="680" fill="#fff"/><rect x="874" y="0" width="3" height="680" fill="#fff"/><rect x="888" y="0" width="6" height="680" fill="#fff"/><rect x="902" y="0" width="2" height="680" fill="#fff"/></mask><filter id="glow" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-  <rect width="960" height="680" rx="6" fill="#0d1820"/>
+  
   <circle cx="470" cy="60" r="1.4" fill="#fff" opacity="0.6"/><circle cx="880" cy="90" r="1" fill="#fff" opacity="0.5"/><circle cx="640" cy="200" r="1.2" fill="#fff" opacity="0.4"/><circle cx="950" cy="330" r="1.4" fill="#fff" opacity="0.5"/><circle cx="480" cy="470" r="1" fill="#fff" opacity="0.5"/><circle cx="700" cy="520" r="1.3" fill="#fff" opacity="0.4"/><circle cx="930" cy="620" r="1" fill="#fff" opacity="0.5"/><circle cx="560" cy="640" r="1.2" fill="#fff" opacity="0.4"/>
     <text x="40" y="88" class="t-name" fill="#ff4d5e">RED</text>
     <text x="40" y="116" class="t-body">Oxygen, very high up</text>
@@ -287,8 +319,7 @@ def main():
       <path d="M500 555 C560 527 610 577 680 555 C750 533 810 581 910 551" fill="none" stroke="#3d8bff" stroke-width="3.5" stroke-linecap="round" filter="url(#glow)"/>
       <path d="M500 555 C560 527 610 577 680 555 C750 533 810 581 910 551" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="1.2" stroke-linecap="round"/>
     </g>
-</svg><figcaption class="nl-graphic-cap">Aurora colours by gas and height. Green is by far the most common; red, purple and blue show up in stronger displays.</figcaption></figure>
-      </div>
+</svg></figure>
     </div>
   </section>
 
