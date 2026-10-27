@@ -59,7 +59,7 @@
       var m = L.marker(h.ll, { icon: icon, title: h.name, keyboard: true, riseOnHover: true });
       m.bindTooltip(esc(h.name), { direction: "top", offset: [0, -10], className: "imap-tip" });
       m.bindPopup(
-        '<a class="imap-card" href="/highlights#' + esc(h.slug) + '">' +
+        '<a class="imap-card" href="' + esc(h.url) + '">' +
           '<img src="' + esc(h.img) + '" alt="' + esc(h.alt) + '" loading="lazy">' +
           '<span class="imap-card-body"><span class="imap-region">' + esc(h.region) + "</span>" +
           "<strong>" + esc(h.name) + "</strong><span class=\"imap-text\">" + esc(h.text) + "</span>" +
@@ -67,9 +67,32 @@
         { maxWidth: 280, minWidth: 260, className: "imap-popup", autoPanPadding: [30, 30] }
       );
       m._cats = h.cats;
+      m._slug = h.slug;
       m.addTo(map);
       markers.push(m);
     });
+
+    var focus = el.getAttribute("data-focus");
+    if (focus) {
+      markers.forEach(function (m) {
+        if (m._slug === focus) {
+          m.setIcon(L.divIcon({ className: "imap-pin imap-pin-focus", html: '<span style="--c:#d9483b"></span>', iconSize: [30, 30], iconAnchor: [15, 15] }));
+          m.setZIndexOffset(1000);
+          m.unbindPopup();
+          m.bindTooltip(esc(m.options.title), { direction: "top", offset: [0, -14], className: "imap-tip", permanent: true });
+          map.setView(m.getLatLng(), min + 1.6, { animate: false });
+          if (touch) map.dragging.enable();
+        }
+      });
+    }
+
+    if (el.hasAttribute("data-nochips")) {
+      var h2 = document.createElement("p");
+      h2.className = "imap-hint";
+      h2.textContent = "Tap a pin to see a nearby place";
+      el.parentNode.insertBefore(h2, el.nextSibling);
+      return;
+    }
 
     // Category chips
     var chips = document.createElement("div");
