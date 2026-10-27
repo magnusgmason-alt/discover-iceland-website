@@ -4,7 +4,8 @@ import sys
 
 import build
 from highlights_content import HIGHLIGHTS
-from places_content import PLACES
+from places_all import all_places
+PLACES = {p["slug"] for p in all_places()}
 import make_articles
 
 slots = set(build.SLOTS) | {"hx-" + h["slug"] for h in HIGHLIGHTS}

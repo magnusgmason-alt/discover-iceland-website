@@ -291,7 +291,7 @@ def load_articles():
         a.setdefault("cluster", "planning")
         a.setdefault("pillar", False)
         arts.append(a)
-    for i in range(1, 9):
+    for i in range(1, 30):
         try:
             mod = importlib.import_module(f"articles_c{i}")
         except ModuleNotFoundError:
