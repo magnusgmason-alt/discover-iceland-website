@@ -17,7 +17,7 @@ IMG = DIST / "assets" / "img"
 
 # Image slot used in index.html -> original photo in photos/
 SLOTS = {
-    "hero-aurora-kirkjufell": "7ff801e8-image.jpg",
+    "hero-vestrahorn": "fef618d7-image.jpg",
     "strip-vestrahorn": "920cb424-image.jpg",
     "strip-braided-river": "750ddcac-image.jpg",
     "strip-studlagil": "f066c020-image.jpg",
@@ -55,7 +55,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "robots.txt", "sitemap.xml"]
+PAGE_FILES = ["index.html", "highlights.html", "robots.txt", "sitemap.xml"]
 PAGE_DIRS = ["blog"]
 
 
@@ -91,6 +91,11 @@ def main():
 
     import make_articles
     make_articles.main()
+    import make_highlights
+    make_highlights.main()
+    from highlights_content import HIGHLIGHTS
+    for h in HIGHLIGHTS:
+        SLOTS["hx-" + h["slug"]] = h["photo"]
 
     for f in PAGE_FILES:
         shutil.copy(ROOT / f, DIST / f)
