@@ -25,6 +25,36 @@
     el.appendChild(mapEl);
 
     var touch = window.matchMedia("(pointer: coarse)").matches;
+    // On phones a popup inside the small map gets clipped at the edges, so the preview opens as a card under the map.
+    var small = touch || window.matchMedia("(max-width: 760px)").matches;
+    var sheet = null, active = null;
+    function cardHtml(h) {
+      return '<a class="imap-card" href="' + esc(h.url) + '">' +
+        '<img src="' + esc(h.img) + '" alt="' + esc(h.alt) + '" loading="lazy">' +
+        '<span class="imap-card-body"><span class="imap-region">' + esc(h.region) + "</span>" +
+        "<strong>" + esc(h.name) + "</strong><span class=\"imap-text\">" + esc(h.text) + "</span>" +
+        '<span class="imap-more">Read more →</span></span></a>';
+    }
+    function showSheet(m, h) {
+      if (!sheet) {
+        sheet = document.createElement("div");
+        sheet.className = "imap-sheet";
+        el.parentNode.insertBefore(sheet, el.nextSibling);
+      }
+      if (active) active.getElement() && active.getElement().classList.remove("imap-pin-on");
+      active = m;
+      m.getElement() && m.getElement().classList.add("imap-pin-on");
+      sheet.innerHTML = '<button type="button" class="imap-sheet-x" aria-label="Close preview">×</button>' + cardHtml(h);
+      sheet.querySelector(".imap-sheet-x").addEventListener("click", hideSheet);
+      sheet.hidden = false;
+      var r = sheet.getBoundingClientRect();
+      if (r.bottom > window.innerHeight) window.scrollBy({ top: r.bottom - window.innerHeight + 16, behavior: "smooth" });
+    }
+    function hideSheet() {
+      if (sheet) sheet.hidden = true;
+      if (active && active.getElement()) active.getElement().classList.remove("imap-pin-on");
+      active = null;
+    }
     var map = L.map(mapEl, {
       zoomSnap: 0, zoomDelta: 0.5, wheelPxPerZoomLevel: 120, scrollWheelZoom: false, attributionControl: false,
       zoomControl: false, maxBoundsViscosity: 1, dragging: !touch, tap: false
@@ -35,7 +65,7 @@
     var min = map.getZoom();
     map.setMinZoom(min);
     map.setMaxZoom(min + 2.75);
-    map.setMaxBounds(BOUNDS);
+    map.setMaxBounds(L.latLngBounds(BOUNDS).pad(small ? 0 : 0.3));
     if (fallback) fallback.remove();
 
     // Wheel zoom only after the visitor clicks into the map, so page scrolling is never hijacked.
@@ -58,14 +88,11 @@
       });
       var m = L.marker(h.ll, { icon: icon, title: h.name, keyboard: true, riseOnHover: true });
       m.bindTooltip(esc(h.name), { direction: "top", offset: [0, -10], className: "imap-tip" });
-      m.bindPopup(
-        '<a class="imap-card" href="' + esc(h.url) + '">' +
-          '<img src="' + esc(h.img) + '" alt="' + esc(h.alt) + '" loading="lazy">' +
-          '<span class="imap-card-body"><span class="imap-region">' + esc(h.region) + "</span>" +
-          "<strong>" + esc(h.name) + "</strong><span class=\"imap-text\">" + esc(h.text) + "</span>" +
-          '<span class="imap-more">Read more →</span></span></a>',
-        { maxWidth: 280, minWidth: 260, className: "imap-popup", autoPanPadding: [30, 30] }
-      );
+      if (small) {
+        m.on("click", function () { showSheet(m, h); });
+      } else {
+        m.bindPopup(cardHtml(h), { maxWidth: 280, minWidth: 260, className: "imap-popup", autoPan: true, autoPanPadding: [30, 30] });
+      }
       m._cats = h.cats;
       m._slug = h.slug;
       m.addTo(map);
@@ -79,6 +106,7 @@
           m.setIcon(L.divIcon({ className: "imap-pin imap-pin-focus", html: '<span style="--c:#d9483b"></span>', iconSize: [30, 30], iconAnchor: [15, 15] }));
           m.setZIndexOffset(1000);
           m.unbindPopup();
+          m.off("click");
           m.bindTooltip(esc(m.options.title), { direction: "top", offset: [0, -14], className: "imap-tip", permanent: true });
           map.setView(m.getLatLng(), min + 1.6, { animate: false });
           if (touch) map.dragging.enable();
@@ -111,6 +139,7 @@
         chips.querySelectorAll(".imap-chip").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
         b.setAttribute("aria-pressed", "true");
         map.closePopup();
+        hideSheet();
         markers.forEach(function (m) {
           var on = c[0] === "all" || m._cats.indexOf(c[0]) > -1;
           if (on && !map.hasLayer(m)) m.addTo(map);
