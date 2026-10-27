@@ -26,7 +26,7 @@ def sitewide(fragment):
     return re.sub(r'href="#([a-z]+)"', r'href="/#\1"', fragment)
 
 
-HEADER = sitewide(HEADER).replace('href="/#journal"', 'href="/#journal" aria-current="page"')
+HEADER = sitewide(HEADER).replace('href="/journal"', 'href="/journal" aria-current="page"')
 FOOTER = sitewide(FOOTER)
 
 ARTICLE_CSS = """
@@ -155,6 +155,10 @@ def slugify(text):
 
 def page(a, others):
     body = a["body"].strip()
+    live = {o["slug"] for o in ARTICLES}
+    # Links to articles that are not published yet become plain text until they are.
+    body = re.sub(r'<a href="/blog/([a-z0-9-]+)"[^>]*>(.*?)</a>',
+                  lambda m: m.group(0) if m.group(1) in live else m.group(2), body, flags=re.S)
     # Number the question headings and build the table of contents.
     heads = re.findall(r"<h2>(.*?)</h2>", body)
     for h in heads:
@@ -187,7 +191,7 @@ def page(a, others):
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Discover Iceland", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "Journal", "item": SITE + "/#journal"},
+            {"@type": "ListItem", "position": 2, "name": "Journal", "item": SITE + "/journal"},
             {"@type": "ListItem", "position": 3, "name": a["short"], "item": url},
         ],
     }
@@ -225,7 +229,7 @@ def page(a, others):
     <img class="bg" src="/assets/img/{a['image']}-1800.jpg" srcset="/assets/img/{a['image']}-800.jpg 800w, /assets/img/{a['image']}-1800.jpg 1800w" sizes="100vw" alt="{html.escape(a['image_alt'])}" fetchpriority="high">
     <div class="shade"></div>
     <div class="a-hero-inner">
-      <p class="a-crumbs"><a href="/">Discover Iceland</a> / <a href="/#journal">Journal</a></p>
+      <p class="a-crumbs"><a href="/">Discover Iceland</a> / <a href="/journal">Journal</a> / <a href="/journal#{a['cluster']}">{CLUSTER_NAMES[a['cluster']]}</a></p>
       <div class="a-meta"><span class="a-pill">{minutes} min read</span><span class="a-cat">{a['category']}</span></div>
       <h1>{a['title']}</h1>
       <span class="rule"></span>
@@ -252,16 +256,183 @@ def page(a, others):
 """
 
 
-from articles_content import ARTICLES  # noqa: E402
+import importlib  # noqa: E402
+
+CLUSTERS = [
+    ("ring-road", "Ring Road & itineraries", "Routes, day-by-day plans and drive times for every trip length.", "map-ring-road"),
+    ("waterfalls", "Waterfalls", "Where to find Iceland's best falls, and how to see them well.", "map-waterfalls"),
+    ("glaciers", "Glaciers & ice", "Glacier lagoons, ice caves and guided glacier walks.", "map-glaciers"),
+    ("golden-circle", "Golden Circle", "Þingvellir, Geysir and Gullfoss, and the stops around them.", "map-golden-circle"),
+    ("hiking", "Hiking", "From short walks to the Laugavegur Trail.", "map-hiking"),
+    ("hot-springs", "Hot springs", "Lagoons, wild pools and how Icelanders bathe.", "map-hot-springs"),
+    ("volcanoes", "Volcanoes", "Eruptions, lava tunnels and staying safe near active volcanoes.", "map-volcanoes"),
+    ("highlights", "Highlights & regions", "The top sights and the regions they belong to.", "map-highlights"),
+    ("planning", "Planning", "When to go, where to stay and how to get around.", "map-general"),
+]
+CLUSTER_NAMES = {c[0]: c[1] for c in CLUSTERS}
+
+
+def load_articles():
+    from articles_content import ARTICLES as base
+    arts = []
+    for a in base:
+        a.setdefault("cluster", "planning")
+        a.setdefault("pillar", False)
+        arts.append(a)
+    for i in range(1, 9):
+        try:
+            mod = importlib.import_module(f"articles_c{i}")
+        except ModuleNotFoundError:
+            continue
+        for a in mod.ARTICLES:
+            a.setdefault("pillar", False)
+            arts.append(a)
+    seen = set()
+    for a in arts:
+        assert a["slug"] not in seen, a["slug"]
+        seen.add(a["slug"])
+        assert a["cluster"] in CLUSTER_NAMES, a["cluster"]
+    return arts
+
+
+ARTICLES = load_articles()
+
+
+def related(a, n=3):
+    """Pillar of the same cluster first, then siblings, then articles it links to, then others."""
+    same = [o for o in ARTICLES if o is not a and o["cluster"] == a["cluster"]]
+    same.sort(key=lambda o: (not o["pillar"],))
+    linked = [o for o in ARTICLES if o is not a and o not in same and f"/blog/{o['slug']}" in a["body"]]
+    rest = [o for o in ARTICLES if o is not a and o not in same and o not in linked]
+    return (same + linked + rest)[:n]
+
+
+JOURNAL_CSS = """
+.j-hero { position: relative; min-height: 64svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--night); }
+.j-hero .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%); }
+.j-hero .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,17,22,.55) 0%, rgba(10,17,22,.2) 40%, rgba(10,17,22,.85) 85%, var(--night) 100%); }
+.j-hero-inner { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; padding: calc(var(--header-h) + 60px) 24px 40px; }
+.j-hero h1 { font-family: var(--serif); font-size: clamp(2.6rem, 7vw, 5.2rem); line-height: 1; margin: 10px 0 18px; }
+.j-hero p.lead { max-width: 52ch; font-size: 1.12rem; color: var(--mist); }
+.j-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; }
+.j-chip { font: inherit; font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--frost); background: transparent; border: 1px solid rgba(232,238,241,.35); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+.j-chip[aria-pressed="true"], .j-chip:hover { background: var(--frost); color: var(--night); border-color: var(--frost); }
+.j-cluster { padding: 64px 0 24px; scroll-margin-top: calc(var(--header-h) + 10px); }
+.j-cluster + .j-cluster { border-top: 1px solid rgba(232,238,241,.1); }
+.j-head { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 32px; align-items: end; }
+.j-head h2 { font-family: var(--serif); font-size: clamp(1.9rem, 4vw, 2.8rem); margin: 6px 0 8px; }
+.j-head p { color: var(--mist); margin: 0; }
+.j-head a.j-map { display: block; border-radius: var(--radius); overflow: hidden; opacity: .9; }
+.j-head a.j-map img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.j-cluster .journal-grid { margin-top: 36px; }
+.journal-card .j-start { display: inline-block; font-size: .64rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; background: var(--red); color: #fff; border-radius: 3px; padding: 3px 7px; margin-right: 8px; vertical-align: 2px; }
+.j-cluster[hidden] { display: none; }
+@media (max-width: 760px) { .j-head { grid-template-columns: 1fr; } .j-head a.j-map { display: none; } }
+"""
+
+
+def card(o, eager=False):
+    start = '<span class="j-start">Start here</span>' if o["pillar"] else ""
+    return f"""<article class="journal-card">
+          <a class="cover-link" href="/blog/{o['slug']}"><img src="/assets/img/{o['image']}-800.jpg" alt="{html.escape(o['image_alt'])}" width="800" height="533" loading="lazy" decoding="async"></a>
+          <div><span class="tags">{start}{o['category']}</span><h3><a href="/blog/{o['slug']}">{o['short']}</a></h3><p>{o['teaser']}</p><a class="link-arrow" href="/blog/{o['slug']}">Read the guide →</a></div>
+        </article>"""
+
+
+def journal_page():
+    header = HEADER
+    chips = ['<button type="button" class="j-chip" data-c="all" aria-pressed="true">All</button>']
+    sections = []
+    for key, name, intro, mp in CLUSTERS:
+        items = [a for a in ARTICLES if a["cluster"] == key]
+        if not items:
+            continue
+        items.sort(key=lambda o: not o["pillar"])
+        chips.append(f'<button type="button" class="j-chip" data-c="{key}" aria-pressed="false">{html.escape(name)}</button>')
+        cards = "".join(card(o) for o in items)
+        sections.append(f"""<section class="j-cluster" id="{key}" data-c="{key}">
+    <div class="container">
+      <div class="j-head">
+        <div><p class="eyebrow">{len(items)} articles</p><h2>{html.escape(name)}</h2><p>{html.escape(intro)}</p></div>
+        <a class="j-map" href="/assets/img/{mp}-2800.jpg" target="_blank" rel="noopener" aria-label="Open the {html.escape(name)} map"><img src="/assets/img/{mp}-800.jpg" alt="Discover Iceland map: {html.escape(name)}" loading="lazy" decoding="async"></a>
+      </div>
+      <div class="journal-grid">{cards}</div>
+    </div>
+  </section>""")
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "The Discover Iceland Journal",
+        "url": SITE + "/journal",
+        "hasPart": [{"@type": "Article", "headline": a["title"], "url": f"{SITE}/blog/{a['slug']}"} for a in ARTICLES],
+    }
+    script = """<script>
+(function () {
+  var chips = document.querySelectorAll(".j-chip"), secs = document.querySelectorAll(".j-cluster");
+  function show(c) {
+    chips.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.c === c)); });
+    secs.forEach(function (s) { s.hidden = !(c === "all" || s.dataset.c === c); });
+  }
+  chips.forEach(function (b) { b.addEventListener("click", function () {
+    show(b.dataset.c); history.replaceState(null, "", b.dataset.c === "all" ? "/journal" : "#" + b.dataset.c);
+  }); });
+  var h = location.hash.slice(1);
+  if (h && document.querySelector('.j-cluster[data-c="' + h + '"]')) show(h);
+})();
+</script>"""
+    n = len(ARTICLES)
+    desc = f"{n} Iceland travel guides with our own maps: the Ring Road, waterfalls, glaciers, the Golden Circle, hiking, hot springs, volcanoes and the top sights."
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iceland Travel Journal: {n} Guides with Maps · Discover Iceland</title>
+<meta name="description" content="{html.escape(desc)}">
+<link rel="canonical" href="{SITE}/journal">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Discover Iceland">
+<meta property="og:title" content="The Discover Iceland Journal">
+<meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:url" content="{SITE}/journal">
+<meta property="og:image" content="{SITE}/assets/img/journal-ring-road-1800.jpg">
+{FONTS}
+<script type="application/ld+json">{json.dumps(ld)}</script>
+<style>{STYLE}{ARTICLE_CSS}{JOURNAL_CSS}</style>
+</head>
+<body>
+{header}
+<main id="top">
+  <section class="j-hero">
+    <img class="bg" src="/assets/img/journal-ring-road-1800.jpg" srcset="/assets/img/journal-ring-road-800.jpg 800w, /assets/img/journal-ring-road-1800.jpg 1800w" sizes="100vw" alt="The Ring Road winding between snow-covered mountains" fetchpriority="high">
+    <div class="shade"></div>
+    <div class="j-hero-inner">
+      <p class="a-crumbs"><a href="/">Discover Iceland</a> / Journal</p>
+      <p class="eyebrow">The journal</p>
+      <h1>Iceland, one question at a time.</h1>
+      <p class="lead">{n} practical guides, each built around one of our own maps. Start with the guide marked “Start here” in each topic.</p>
+      <div class="j-chips" role="toolbar" aria-label="Filter by topic">{''.join(chips)}</div>
+    </div>
+  </section>
+  {''.join(sections)}
+  <div style="height:72px"></div>
+</main>
+{FOOTER}
+{SCRIPT}
+{script}
+</body>
+</html>
+"""
 
 
 def main():
     out = ROOT / "blog"
     out.mkdir(exist_ok=True)
     for a in ARTICLES:
-        others = [o for o in ARTICLES if o is not a]
-        (out / f"{a['slug']}.html").write_text(page(a, others), encoding="utf8")
-        print("article", a["slug"])
+        (out / f"{a['slug']}.html").write_text(page(a, related(a)), encoding="utf8")
+    (ROOT / "journal.html").write_text(journal_page(), encoding="utf8")
+    print("articles", len(ARTICLES), "+ journal.html")
+    return [a["slug"] for a in ARTICLES]
 
 
 if __name__ == "__main__":

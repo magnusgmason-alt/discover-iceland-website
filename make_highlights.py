@@ -198,7 +198,7 @@ def main():
       <p class="eyebrow">Plan the trip</p>
       <h2>Put it all on one route.</h2>
       <p class="lead center">The complete guide links these places into day trips and Ring Road itineraries, with maps for each region.</p>
-      <div class="btn-row center-row"><a class="btn primary" href="/#guides">See the guides</a><a class="btn outline" href="/#journal">Read the journal</a></div>
+      <div class="btn-row center-row"><a class="btn primary" href="/#guides">See the guides</a><a class="btn outline" href="/journal">Read the journal</a></div>
     </div>
   </section>
 </main>

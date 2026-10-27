@@ -39,6 +39,11 @@ SLOTS = {
     "map-glaciers": "is-map-04-iceland-glaciers-nobar.jpg",
     "map-hiking": "is-map-05-iceland-hiking-nobar.jpg",
     "map-golden-circle": "is-map-06-iceland-golden-circle-nobar.jpg",
+    "map-hot-springs": "is-map-07-iceland-hot-springs-nobar.jpg",
+    "map-volcanoes": "is-map-08-iceland-volcanoes-nobar.jpg",
+    "map-ring-road": "is-map-09-iceland-ring-road-7-days-nobar.jpg",
+    "map-westfjords": "is-map-11-iceland-westfjords.jpg",
+    "map-wildlife": "is-map-12-iceland-wildlife-nobar.jpg",
     "guides-braided-river": "f1655396-image.jpg",
     "hl-gullfoss": "6c6db642-image.jpg",
     "hl-geysir": "ad4609b3-image.jpg",
@@ -63,7 +68,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "robots.txt", "sitemap.xml"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "robots.txt", "sitemap.xml"]
 PAGE_DIRS = ["blog", "js", "places"]
 
 
@@ -98,7 +103,7 @@ def main():
     IMG.mkdir(parents=True)
 
     import make_articles
-    make_articles.main()
+    article_slugs = make_articles.main()
     import make_highlights
     make_highlights.main()
     import make_aurora
@@ -120,7 +125,9 @@ def main():
         SLOTS["hx-" + h["slug"]] = h["photo"]
 
     sm = (ROOT / "sitemap.xml").read_text()
-    extra = "".join(f"  <url><loc>https://discovericeland.co/places/{p}</loc><lastmod>2026-10-27</lastmod></url>\n" for p in sorted(place_slugs))
+    urls = ["/journal"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]
+    extra = "".join(f"  <url><loc>https://discovericeland.co{u}</loc><lastmod>2026-10-27</lastmod></url>\n"
+                    for u in urls if f"discovericeland.co{u}<" not in sm)
     for f in PAGE_FILES:
         shutil.copy(ROOT / f, DIST / f)
     (DIST / "sitemap.xml").write_text(sm.replace("</urlset>", extra + "</urlset>"))

@@ -38,6 +38,7 @@ SCRIPT = SCRIPT.split("// Checklist sign-up")[0] + "\n})();"
 LABELS = dict(CATEGORIES)
 
 PAGE_CSS = """
+.pl-reads a { color: var(--glacier); text-underline-offset: 3px; }
 /* Place pages */
 .pl-hero { position: relative; min-height: 78svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--night); color: var(--white); }
 .pl-hero .bg { -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
@@ -108,6 +109,16 @@ def main():
             <span class="hx-region">{html.escape(n['region'])}</span><h3>{html.escape(n['name'])}</h3><span class="km">About {round(km(h['ll'], n['ll']))} km away, as the crow flies</span></a></li>"""
             for n in near
         )
+        try:
+            from make_articles import ARTICLES as ARTS
+        except Exception:
+            ARTS = []
+        reads = [a for a in ARTS if f'/places/{slug}"' in a["body"]]
+        reads.sort(key=lambda a: (not a.get("pillar"), a["body"].count(f"/places/{slug}") * -1))
+        reads_html = ""
+        if reads:
+            items = "".join(f'<li><a href="/blog/{a["slug"]}">{html.escape(a["short"])}</a></li>' for a in reads[:5])
+            reads_html = f'<h2>Read more in the journal</h2><ul class="pl-reads">{items}</ul>'
         title = f"{h['name']}, Iceland: How to Visit, When to Go and Tips"
         desc = f"{h['text']} How to get to {h['name']}, the best time to visit and practical tips."
         ld = [
@@ -165,6 +176,7 @@ def main():
       <p>{html.escape(p['when'])}</p>
       <h2>Good to know</h2>
       <ul>{tips}</ul>
+      {reads_html}
       <p class="pl-note">Drive times are approximate and depend on weather and road conditions. Check road.is and vedur.is before you set off.</p>
     </article>
     <aside class="pl-facts">
