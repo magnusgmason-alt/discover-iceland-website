@@ -26,7 +26,7 @@
 
     var touch = window.matchMedia("(pointer: coarse)").matches;
     var map = L.map(mapEl, {
-      zoomSnap: 0.25, zoomDelta: 0.5, scrollWheelZoom: false, attributionControl: false,
+      zoomSnap: 0, zoomDelta: 0.5, wheelPxPerZoomLevel: 120, scrollWheelZoom: false, attributionControl: false,
       zoomControl: false, maxBoundsViscosity: 1, dragging: !touch, tap: false
     });
     L.control.zoom({ position: "bottomright" }).addTo(map);
