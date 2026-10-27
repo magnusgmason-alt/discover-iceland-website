@@ -49,6 +49,10 @@ PAGE_CSS = """
 .chip[aria-pressed="true"] { background: var(--frost); color: var(--night); border-color: var(--frost); }
 .chip .n { opacity: 0.55; margin-left: 6px; }
 
+.hx-map { padding-top: 36px; }
+.hx-map a { display: block; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); cursor: zoom-in; }
+.hx-map img { width: 100%; }
+.hx-map-cap { color: var(--mist); font-size: 0.85rem; text-align: center; margin: 14px 0 0; }
 .hx-count { color: var(--mist); font-size: 0.85rem; margin: 36px 0 0; }
 .hx-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 28px; margin: 24px 0 0; padding: 0; list-style: none; }
 .hx { display: flex; flex-direction: column; scroll-margin-top: calc(var(--header-h) + 80px); }
@@ -175,6 +179,10 @@ def main():
   <nav class="filters" aria-label="Filter highlights">
     <div class="container">{chips}</div>
   </nav>
+  <section class="container hx-map">
+    <a href="/assets/img/map-highlights-2800.jpg" target="_blank" rel="noopener" aria-label="Open the Iceland highlights map full size"><img src="/assets/img/map-highlights-1800.jpg" srcset="/assets/img/map-highlights-800.jpg 800w, /assets/img/map-highlights-1800.jpg 1800w, /assets/img/map-highlights-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map of Iceland with all the main highlights marked around the Ring Road" width="1800" height="1309" loading="lazy" decoding="async"></a>
+    <p class="hx-map-cap">All the main highlights on one map. Tap to open it full size.</p>
+  </section>
   <section class="container">
     <p class="hx-count" id="hxCount" aria-live="polite">{len(HIGHLIGHTS)} highlights</p>
     <ul class="hx-grid">

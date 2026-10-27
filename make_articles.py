@@ -78,6 +78,10 @@ ARTICLE_CSS = """
 .a-figure img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .a-figure figcaption { font-size: 0.8rem; color: var(--muted); padding: 8px 24px 0; }
 
+.a-map { margin: 36px 0; }
+.a-map a { display: block; border-radius: var(--radius); overflow: hidden; box-shadow: 0 16px 40px rgba(14, 19, 23, 0.25); cursor: zoom-in; }
+.a-map img { aspect-ratio: auto !important; object-fit: contain !important; }
+.a-map figcaption { padding: 10px 0 0; }
 .checked { font-size: 0.88rem; color: var(--muted); border-top: 1px solid rgba(14, 19, 23, 0.12); padding-top: 18px; margin-top: 40px; }
 .sources { font-size: 0.86rem; color: var(--muted); }
 .sources h2 { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); margin: 18px 0 10px; }

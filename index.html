@@ -207,6 +207,9 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .card-body em { display: block; font-style: normal; font-size: 0.84rem; opacity: 0.85; margin-top: 6px; }
 
 /* Map */
+.overview-map { padding-top: clamp(40px, 6vw, 80px); }
+.overview-map-img { display: block; margin-top: 40px; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); cursor: zoom-in; }
+.overview-map-img img { width: 100%; }
 .map-tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 36px 0 26px; }
 .map-tab { background: transparent; color: var(--frost); border: 1px solid rgba(232, 238, 241, 0.3); border-radius: 999px; padding: 9px 16px; font: 600 0.72rem var(--sans); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
 .map-tab:hover { border-color: var(--frost); }
@@ -385,9 +388,9 @@ h3 { font-size: 1.5rem; font-weight: 800; }
       <p class="lead">Iceland is small enough to drive around in a week and wild enough to fill a lifetime. Discover Iceland is a complete travel guide to the island: when to go, how to get around, where to stay, what to eat, what it costs, how to drive safely, and how to read the weather.</p>
     </div>
     <div class="container stats">
-      <div><strong>874</strong><span>traditional year of the first permanent settlement</span></div>
-      <div><strong>930</strong><span>the Althing, Iceland’s parliament, first met at Þingvellir</span></div>
-      <div><strong>1944</strong><span>year Iceland became an independent republic</span></div>
+      <div><strong>394,000</strong><span>people live in all of Iceland, fewer than in many single cities</span></div>
+      <div><strong>~10%</strong><span>of the island is covered by glaciers</span></div>
+      <div><strong>9 in 10</strong><span>homes are heated with hot water from underground</span></div>
     </div>
   </section>
 
@@ -403,6 +406,19 @@ h3 { font-size: 1.5rem; font-weight: 800; }
         <a class="btn primary" href="#guide">The complete guide</a>
         <a class="btn ghost" href="#seasons">The seasonal editions</a>
       </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW MAP -->
+  <section class="section overview-map" aria-labelledby="overview-map-title">
+    <div class="container">
+      <div class="center narrow">
+        <p class="eyebrow">The map</p>
+        <h2 id="overview-map-title">Everything, on one map.</h2>
+        <p class="lead center">The waterfalls, glaciers, black beaches, hot springs and towns, all the way around the Ring Road.</p>
+      </div>
+      <a class="overview-map-img" href="assets/img/map-highlights-2800.jpg" target="_blank" rel="noopener" aria-label="Open the Iceland highlights map full size"><img src="assets/img/map-highlights-1800.jpg" srcset="assets/img/map-highlights-800.jpg 800w, assets/img/map-highlights-1800.jpg 1800w, assets/img/map-highlights-2800.jpg 2800w" sizes="(min-width: 1240px) 1200px, 100vw" alt="Map of Iceland with all the main highlights marked around the Ring Road" width="1800" height="1309" loading="lazy" decoding="async"></a>
+      <div class="btn-row center-row"><a class="btn outline" href="/highlights">Explore the highlights</a><a class="btn outline" href="#map">More maps</a></div>
     </div>
   </section>
 
