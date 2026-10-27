@@ -24,7 +24,7 @@ FOOTER = re.search(r'<footer class="site-footer">.*?</footer>', index, re.S).gro
 SCRIPT = re.search(r"<script>(.*?)</script>", index, re.S).group(1)
 LEAFLET_CSS = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">'
 LEAFLET_JS = ('<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>\n'
-              '<script src="/js/iceland-map.js?v=3" defer></script>')
+              '<script src="/js/iceland-map.js?v=4" defer></script>')
 
 
 def sitewide(fragment):

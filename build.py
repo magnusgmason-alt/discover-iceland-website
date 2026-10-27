@@ -69,7 +69,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "robots.txt", "sitemap.xml"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "robots.txt", "sitemap.xml"]
 PAGE_DIRS = ["blog", "js", "places"]
 
 
@@ -111,6 +111,8 @@ def main():
     make_aurora.main()
     SLOTS.update(make_aurora.SLOTS)
     import json
+    import make_mapapp
+    make_mapapp.main()
     import make_places
     place_slugs = set(make_places.main())
     from highlights_content import CATEGORIES as HC, HIGHLIGHTS
@@ -126,7 +128,7 @@ def main():
         SLOTS["hx-" + h["slug"]] = h["photo"]
 
     sm = (ROOT / "sitemap.xml").read_text()
-    urls = ["/journal"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]
+    urls = ["/journal", "/map"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]
     extra = "".join(f"  <url><loc>https://discovericeland.co{u}</loc><lastmod>2026-10-27</lastmod></url>\n"
                     for u in urls if f"discovericeland.co{u}<" not in sm)
     for f in PAGE_FILES:

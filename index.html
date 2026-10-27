@@ -252,6 +252,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .band { background: var(--night-2); color: var(--white); padding: 34px 0; border-top: 1px solid var(--line); }
 .band-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; }
 .band p { margin: 0; opacity: 0.9; }
+.band-links { display: flex; flex-wrap: wrap; gap: 10px 26px; }
 .site-footer { background: #070c10; color: rgba(255, 255, 255, 0.75); padding: 56px 0 40px; font-size: 0.86rem; }
 .footer-inner { display: grid; gap: 22px; }
 .site-footer .logo { color: var(--white); font-size: 1.3rem; }
@@ -367,6 +368,12 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .imap-region { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--glacier); }
 .imap-card strong { display: block; font-family: var(--serif); font-size: 1.25rem; margin: 4px 0 6px; }
 .imap-text { display: block; font-size: 0.82rem; line-height: 1.5; color: var(--mist); }
+.imap-sheet { position: relative; margin: 14px 0 0; background: var(--night-2); border-radius: 6px; overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+.imap-sheet .imap-card { display: grid; grid-template-columns: 38% 1fr; }
+.imap-sheet .imap-card img { height: 100%; min-height: 150px; }
+.imap-sheet .imap-card-body { padding: 14px 40px 14px 14px; }
+.imap-sheet-x { position: absolute; top: 6px; right: 8px; z-index: 2; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(10,17,22,.7); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+.imap-pin-on span { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(217,72,59,.55), 0 4px 10px rgba(0,0,0,.45); }
 .imap-more { display: inline-block; margin-top: 10px; font-size: 0.78rem; font-weight: 700; border-bottom: 2px solid var(--red); }
 .leaflet-bar a { background: var(--night-2); color: var(--frost); border-color: var(--line); }
 .leaflet-bar a:hover { background: var(--night-3); color: #fff; }
@@ -460,21 +467,6 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     </div>
   </section>
 
-  <!-- THE TWO BOOKS -->
-  <section class="photo-section tall" id="editions">
-    <img class="bg" src="assets/img/editions-flag-1800.jpg" srcset="assets/img/editions-flag-800.jpg 800w, assets/img/editions-flag-1800.jpg 1800w" sizes="100vw" alt="The Icelandic flag flying above dark rocks under a wide blue sky" width="1717" height="2576" style="object-position: 50% 40%" loading="lazy" decoding="async">
-    <div class="shade heavy"></div>
-    <div class="container narrow center on-photo">
-      <p class="eyebrow light">The series</p>
-      <h2>One island. Two seasons.</h2>
-      <p class="lead">Iceland is a different country in July and in January. The complete guide covers the whole island all year, and three companion books go deeper: a summer edition, a winter edition and a guide to the northern lights.</p>
-      <div class="btn-row center-row">
-        <a class="btn primary" href="#guide">The complete guide</a>
-        <a class="btn ghost" href="#seasons">The seasonal editions</a>
-      </div>
-    </div>
-  </section>
-
   <!-- OVERVIEW MAP -->
   <section class="section overview-map" aria-labelledby="overview-map-title">
     <div class="container">
@@ -484,7 +476,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
         <p class="lead center">Zoom in, drag around and tap a pin to preview a place: waterfalls, glaciers, black beaches, hot springs and more.</p>
       </div>
       <div class="imap" data-map><img class="imap-fallback" src="assets/img/map-highlights-1800.jpg" alt="Map of Iceland with the main highlights marked around the Ring Road" loading="lazy"></div>
-      <div class="btn-row center-row"><a class="btn outline" href="/highlights">Explore the highlights</a><a class="btn outline" href="#map">More maps</a></div>
+      <div class="btn-row center-row"><a class="btn outline" href="/highlights">Explore the highlights</a><a class="btn primary" href="/map">See the map in detail</a></div>
     </div>
   </section>
 
@@ -821,7 +813,27 @@ h3 { font-size: 1.5rem; font-weight: 800; }
   <section class="band">
     <div class="container band-inner">
       <p><strong>Part of the Discover series.</strong> Independent travel guides, one destination at a time.</p>
-      <a class="link-arrow dark" href="https://discoversingapore.org">Discover Singapore →</a>
+      <nav class="band-links" aria-label="Other Discover guides">
+        <a class="link-arrow dark" href="https://discoverhawaii.co">Discover Hawaii →</a>
+        <a class="link-arrow dark" href="https://discoverindonesia.co">Discover Indonesia →</a>
+        <a class="link-arrow dark" href="https://discoveraustralia.co">Discover Australia →</a>
+        <a class="link-arrow dark" href="https://discoversingapore.org">Discover Singapore →</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- THE TWO BOOKS -->
+  <section class="photo-section tall" id="editions">
+    <img class="bg" src="assets/img/editions-flag-1800.jpg" srcset="assets/img/editions-flag-800.jpg 800w, assets/img/editions-flag-1800.jpg 1800w" sizes="100vw" alt="The Icelandic flag flying above dark rocks under a wide blue sky" width="1717" height="2576" style="object-position: 50% 40%" loading="lazy" decoding="async">
+    <div class="shade heavy"></div>
+    <div class="container narrow center on-photo">
+      <p class="eyebrow light">The series</p>
+      <h2>One island. Two seasons.</h2>
+      <p class="lead">Iceland is a different country in July and in January. The complete guide covers the whole island all year, and three companion books go deeper: a summer edition, a winter edition and a guide to the northern lights.</p>
+      <div class="btn-row center-row">
+        <a class="btn primary" href="#guide">The complete guide</a>
+        <a class="btn ghost" href="#seasons">The seasonal editions</a>
+      </div>
     </div>
   </section>
 
@@ -952,6 +964,6 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
-<script src="/js/iceland-map.js?v=3" defer></script>
+<script src="/js/iceland-map.js?v=4" defer></script>
 </body>
 </html>
