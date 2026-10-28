@@ -10,7 +10,11 @@
 <meta property="og:title" content="Discover Iceland · The Complete Iceland Travel Guide">
 <meta property="og:description" content="The complete travel guide to Iceland: regions, road trips, maps and planning, with summer, winter and northern lights editions.">
 <meta property="og:url" content="https://discovericeland.co/">
-<meta property="og:image" content="https://discovericeland.co/assets/img/hero-vestrahorn-1800.jpg">
+<meta property="og:image" content="https://discovericeland.co/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Discover Iceland: the land of fire and ice. Black dunes below Vestrahorn.">
+<meta name="twitter:image" content="https://discovericeland.co/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Discover Iceland: the complete travel guide to Iceland, with summer, winter and northern lights editions.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -397,6 +401,36 @@ h3 { font-size: 1.5rem; font-weight: 800; }
 .leaflet-container { font-family: var(--sans); }
 .leaflet-container a { color: inherit; }
 @media (max-width: 760px) { .imap-chips { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; margin-left: -24px; margin-right: -24px; padding: 0 24px; scrollbar-width: none; } .imap-chip { flex: none; } }
+/* Book: buy buttons + 20-page preview */
+.applepay { display: flex; align-items: center; justify-content: center; gap: 4px; height: 52px; border-radius: 10px; background: #000; color: #fff; text-decoration: none; font: 600 1.28rem -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; letter-spacing: -0.01em; border: 1px solid rgba(255, 255, 255, 0.28); transition: transform 0.15s, border-color 0.2s; }
+.applepay:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, 0.6); }
+.applepay svg { width: 18px; height: 22px; margin-top: -3px; fill: currentColor; }
+.applepay small { font-size: 0.84rem; font-weight: 500; opacity: 0.75; margin-left: 10px; }
+.viewer { background: rgba(15, 26, 33, 0.92); border: 1px solid var(--line); border-radius: 6px; padding: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); max-width: 440px; justify-self: center; width: 100%; }
+.viewer-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 2px 4px 10px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist); }
+.viewer-bar output { color: var(--white); font-variant-numeric: tabular-nums; }
+.viewer-bar .tag { color: var(--glacier); }
+.stage { position: relative; aspect-ratio: 2 / 3; max-width: 100%; background: #fff; border-radius: 2px; overflow: hidden; cursor: pointer; user-select: none; }
+.stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.stage .end { position: absolute; inset: 0; display: grid; place-content: center; gap: 12px; padding: 24px; text-align: center; background: rgba(10, 17, 22, 0.95); color: var(--frost); }
+.stage .end strong { font-family: var(--serif); font-size: 1.5rem; }
+.stage .end p { color: var(--mist); margin: 0; font-size: 0.9rem; }
+.stage .end .applepay { width: 100%; max-width: 300px; margin: 4px auto 0; }
+.viewer-ctrl { display: flex; align-items: center; gap: 10px; padding-top: 10px; }
+.viewer-ctrl button { flex: 0 0 auto; width: 44px; height: 40px; border-radius: 3px; border: 1px solid var(--line); background: transparent; color: var(--frost); font: 700 1.05rem var(--sans); cursor: pointer; }
+.viewer-ctrl button:disabled { opacity: 0.3; cursor: default; }
+.viewer-ctrl input[type=range] { flex: 1; min-width: 0; accent-color: var(--red); }
+.viewer .buy { max-width: none; margin-top: 12px; }
+[hidden] { display: none !important; }
+.dbook-coverbuy { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.dbook-buy { display: grid; gap: 10px; justify-items: stretch; width: 100%; max-width: 340px; margin: 0 auto; text-align: center; }
+.dbook-price { font: 800 1.9rem var(--sans); letter-spacing: -0.03em; color: var(--white); }
+.dbook-assure { margin: 0; font-size: .8rem; color: var(--mist); text-align: center; }
+.dbook-look { display: flex; justify-content: center; padding-bottom: clamp(70px, 9vw, 120px); }
+.dbook-look .viewer { width: min(400px, 100%); display: grid; gap: 10px; }
+.dbook-look .viewer > .applepay { margin-top: 2px; }
+.soon-label.avail { background: var(--glacier); color: var(--night); }
+.book .btn-row .applepay { height: 46px; font-size: 1.12rem; padding: 0 18px; }
 </style>
 </head>
 <body>
@@ -521,15 +555,27 @@ h3 { font-size: 1.5rem; font-weight: 800; }
   <section class="dbook" id="complete-guide">
     <img class="dbook-bg" src="assets/img/book-bg-guide-1800.jpg" srcset="assets/img/book-bg-guide-800.jpg 800w, assets/img/book-bg-guide-1800.jpg 1800w" sizes="100vw" alt="" style="object-position:50% 72%" loading="lazy" decoding="async">
     <div class="container dbook-wrap">
-      <a class="dbook-cover" href="#guides"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a>
+      <div class="dbook-coverbuy"><a class="dbook-cover" href="/complete-guide"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 900px) 400px, 70vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a><div class="dbook-buy"><span class="dbook-price">€12.99</span><a class="applepay" href="https://discover.lemonsqueezy.com/checkout/buy/3b581a04-ab44-4148-a0ce-6ab8bb81a7c2" target="_blank" rel="noopener" aria-label="Buy with Apple Pay, €12.99"><svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.3zM11.6 3c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>Pay<small>Buy now</small></a><p class="dbook-assure">Instant download · read it on any device</p></div></div>
       <div class="dbook-text">
-        <p class="eyebrow">The complete guide · Coming 2027</p>
+        <p class="eyebrow">The complete guide · 2027 edition · Available now</p>
         <h2>Discover<br>Iceland</h2>
-        <p class="dbook-sub">The land of fire and ice, from edge to edge</p>
+        <p class="dbook-sub">The Land of Fire and Ice, at the Edge of the World.</p>
         <hr class="dbook-rule">
-        <p class="pitch">Every region of the island, the Ring Road and the detours worth taking, the hot pools, the waterfalls and the glaciers, with our own maps throughout. <strong>One book for your whole trip, in any season.</strong></p>
+        <p class="pitch">Every region of the island, the Ring Road and the detours worth taking, the hot pools, the waterfalls and the glaciers, with our own maps throughout. 246 pages, 31 chapters and 13 full-spread maps, every fact checked against official sources. <strong>One book for your whole trip, in any season.</strong></p>
         <div class="dbook-grid"><div><b>Region by region</b><span>Reykjavík, the South Coast, the East Fjords, the North, the Westfjords and the highlands</span></div><div><b>Ring Road &amp; day trips</b><span>Routes, drive times and where to stop on the way</span></div><div><b>Hot pools</b><span>Lagoons, wild springs and how to bathe like a local</span></div><div><b>Weather &amp; light</b><span>Daylight by month, road conditions and the aurora calendar</span></div></div>
-        <div class="btn-row"><a class="btn primary" href="#checklist">Notify me at launch</a><a class="btn outline" href="#summer-edition">See the seasonal editions</a></div>
+        <div class="btn-row"><a class="btn primary" href="/complete-guide">Learn more about the book</a><a class="btn outline" href="#look-inside">Look inside</a></div>
+      </div>
+    </div>
+    <div class="container dbook-look" id="look-inside">
+      <div class="viewer" aria-label="Preview the first 20 pages">
+        <div class="viewer-bar"><span class="tag">Look inside</span><output id="pvCount" aria-live="polite">Page 1 of 246</output></div>
+        <div class="stage" id="pvStage" title="Click to turn the page">
+          <img id="pvImg" src="/preview/p01.jpg" alt="Page 1 of Discover Iceland, Complete Guide" width="900" height="1350" loading="lazy" decoding="async">
+          <div class="end" id="pvEnd" hidden><strong>That's the preview.</strong><p>226 more pages, 31 chapters and 13 maps.</p><a class="applepay" href="https://discover.lemonsqueezy.com/checkout/buy/3b581a04-ab44-4148-a0ce-6ab8bb81a7c2" target="_blank" rel="noopener" aria-label="Buy with Apple Pay, €12.99"><svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.3zM11.6 3c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>Pay<small>€12.99</small></a><p>Instant download · read it anywhere</p></div>
+        </div>
+        <div class="viewer-ctrl"><button id="pvPrev" type="button" aria-label="Previous page">←</button><input id="pvRange" type="range" min="1" max="21" value="1" aria-label="Go to page"><button id="pvNext" type="button" aria-label="Next page">→</button></div>
+        <a class="applepay" href="https://discover.lemonsqueezy.com/checkout/buy/3b581a04-ab44-4148-a0ce-6ab8bb81a7c2" target="_blank" rel="noopener" aria-label="Buy with Apple Pay, €12.99"><svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.3zM11.6 3c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>Pay<small>€12.99</small></a>
+        <p class="dbook-assure center">Instant download · read it on any device</p>
       </div>
     </div>
   </section>
@@ -762,15 +808,15 @@ h3 { font-size: 1.5rem; font-weight: 800; }
     <div class="container">
       <p class="eyebrow center">The guides</p>
       <h2 class="center">Four guides, every season.</h2>
-      <p class="lead center narrow">The complete guide and the summer, winter and northern lights editions are in preparation. Leave your email below and we will tell you the day each one launches.</p>
+      <p class="lead center narrow">The complete guide is out now. The summer, winter and northern lights editions are in preparation: leave your email below and we will tell you the day each one launches.</p>
       <div class="book-grid">
         <article class="book">
-          <a class="cover" href="#guide"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 700px) 320px, 70vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a>
+          <a class="cover" href="/complete-guide"><img src="assets/img/cover-guide-900.jpg" srcset="assets/img/cover-guide-500.jpg 500w, assets/img/cover-guide-900.jpg 900w" sizes="(min-width: 700px) 320px, 70vw" alt="Cover of Discover Iceland, the complete travel guide" width="900" height="1350" loading="lazy" decoding="async"></a>
           <p class="series">The complete guide</p>
           <h3>Discover Iceland</h3>
           <p class="subtitle">Regions, road trips &amp; maps</p>
-          <span class="soon-label">Coming soon</span>
-          <div class="btn-row center-row"><a class="btn primary" href="#checklist">Notify me</a></div>
+          <span class="soon-label avail">Available now · €12.99</span>
+          <div class="btn-row center-row"><a class="applepay" href="https://discover.lemonsqueezy.com/checkout/buy/3b581a04-ab44-4148-a0ce-6ab8bb81a7c2" target="_blank" rel="noopener" aria-label="Buy with Apple Pay, €12.99"><svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.3zM11.6 3c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>Pay<small>Buy</small></a><a class="btn outline" href="/complete-guide">See more</a></div>
         </article>
         <article class="book">
           <a class="cover" href="#seasons"><img src="assets/img/cover-summer-900.jpg" srcset="assets/img/cover-summer-500.jpg 500w, assets/img/cover-summer-900.jpg 900w" sizes="(min-width: 700px) 320px, 70vw" alt="Cover of Discover Iceland, Summer Edition" width="900" height="1350" loading="lazy" decoding="async"></a>
@@ -863,7 +909,7 @@ h3 { font-size: 1.5rem; font-weight: 800; }
       <hr class="dbook-rule series-rule">
       <p class="series-text">Discover is an independent series of travel guides. Each book takes one place and covers it in depth: where to go and when, the routes that connect it all, honest practical advice and our own maps, with photography that makes you want to pack. Iceland is the latest destination in the series, alongside Hawaii, Indonesia, Australia and Singapore.</p>
       <div class="sr-grid">
-        <a class="sr-book" href="#complete-guide">
+        <a class="sr-book" href="/complete-guide">
           <img src="assets/img/series-iceland-800.jpg" alt="Cover of Discover Iceland, The Complete Guide" width="800" height="1200" loading="lazy" decoding="async">
           <h3>Discover Iceland</h3><p>The Complete Guide</p>
         </a>
@@ -991,6 +1037,30 @@ h3 { font-size: 1.5rem; font-weight: 800; }
       });
     });
   });
+
+  // Book preview (first 20 pages)
+  (function () {
+    var img = document.getElementById("pvImg"); if (!img) return;
+    var TOTAL = 246, PREVIEW = 20, page = 1, end = document.getElementById("pvEnd"), count = document.getElementById("pvCount");
+    var range = document.getElementById("pvRange"), prev = document.getElementById("pvPrev"), next = document.getElementById("pvNext"), stage = document.getElementById("pvStage");
+    function src(n) { return "/preview/p" + (n < 10 ? "0" : "") + n + ".jpg"; }
+    function show(n) {
+      page = Math.max(1, Math.min(PREVIEW + 1, n));
+      var isEnd = page > PREVIEW; end.hidden = !isEnd;
+      if (!isEnd) { img.src = src(page); img.alt = "Page " + page + " of Discover Iceland, Complete Guide"; }
+      count.textContent = "Page " + Math.min(page, PREVIEW) + " of " + TOTAL;
+      range.value = page; prev.disabled = page === 1; next.disabled = isEnd;
+      if (page < PREVIEW) { var p = new Image(); p.src = src(page + 1); }
+    }
+    prev.addEventListener("click", function () { show(page - 1); });
+    next.addEventListener("click", function () { show(page + 1); });
+    range.addEventListener("input", function () { show(parseInt(range.value, 10)); });
+    stage.addEventListener("click", function (e) { if (e.target.closest("a")) return; var r = stage.getBoundingClientRect(); show(e.clientX - r.left < r.width / 3 ? page - 1 : page + 1); });
+    var sx = null;
+    stage.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener("touchend", function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 40) show(dx < 0 ? page + 1 : page - 1); });
+    show(1);
+  })();
 
   // Footer year
   var year = document.getElementById("year");
