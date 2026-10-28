@@ -153,6 +153,59 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:60]
 
 
+
+# Place names that get linked to /places/<slug> on their first mention in an article.
+PLACE_NAMES = {
+    "dettifoss": ["Dettifoss"], "godafoss": ["Goðafoss"], "myvatn": ["Mývatn", "Hverir"], "asbyrgi": ["Ásbyrgi"],
+    "husavik": ["Húsavík"], "dynjandi": ["Dynjandi"], "latrabjarg": ["Látrabjarg"], "hvitserkur": ["Hvítserkur"],
+    "skogafoss": ["Skógafoss"], "diamond-beach": ["Diamond Beach"], "fjadrargljufur": ["Fjaðrárgljúfur"],
+    "svartifoss": ["Svartifoss"], "kerid": ["Kerið"], "blue-lagoon": ["Blue Lagoon"], "landmannalaugar": ["Landmannalaugar"],
+    "hraunfossar": ["Hraunfossar"], "gullfoss": ["Gullfoss"], "geysir": ["Geysir", "Strokkur"], "seljalandsfoss": ["Seljalandsfoss"],
+    "thingvellir": ["Þingvellir"], "jokulsarlon": ["Jökulsárlón"], "reynisfjara": ["Reynisfjara"], "kirkjufell": ["Kirkjufell"],
+    "studlagil": ["Stuðlagil"], "hengifoss": ["Hengifoss"], "fjallsarlon": ["Fjallsárlón"], "solheimajokull": ["Sólheimajökull"],
+    "skaftafell": ["Skaftafell"], "vestrahorn": ["Vestrahorn"], "stokksnes": ["Stokksnes"], "maelifell": ["Mælifell"],
+    "reykjadalur": ["Reykjadalur"], "snaefellsnes": ["Snæfellsnes"], "breidamerkurjokull": ["Breiðamerkurjökull"],
+}
+MAX_PLACE_LINKS = 10
+
+
+def link_places(body):
+    """Link the first plain-text mention of each place in paragraphs and lists (never headings,
+    captions, tables or existing links). Places the article already links to are left alone."""
+    try:
+        from places_all import all_places
+        live = {p["slug"] for p in all_places()}
+    except Exception:
+        return body
+    done = set(re.findall(r'href="/places/([a-z0-9-]+)"', body))
+    todo = [(slug, n) for slug, names in PLACE_NAMES.items() if slug in live and slug not in done for n in names]
+    if not todo:
+        return body
+    parts = re.split(r"(<[^>]+>)", body)
+    skip = 0  # depth inside a, h1-h6, figcaption, th, td, summary, strong
+    added = 0
+    for i, part in enumerate(parts):
+        if part.startswith("<"):
+            t = re.match(r"</?\s*([a-zA-Z0-9]+)", part)
+            if t and t.group(1).lower() in ("a", "h1", "h2", "h3", "h4", "h5", "h6", "figcaption", "th", "td", "summary", "strong", "b"):
+                skip += -1 if part.startswith("</") else (0 if part.endswith("/>") else 1)
+            continue
+        if skip > 0 or not part.strip() or added >= MAX_PLACE_LINKS:
+            continue
+        for slug, name in todo:
+            if slug in done:
+                continue
+            m = re.search(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])", part)
+            if m:
+                part = part[:m.start()] + f'<a href="/places/{slug}">{name}</a>' + part[m.end():]
+                done.add(slug)
+                added += 1
+                if added >= MAX_PLACE_LINKS:
+                    break
+        parts[i] = part
+    return "".join(parts)
+
+
 def topic_list(a):
     """On a topic's main guide, list every other guide in that topic."""
     if not a.get("pillar"):
@@ -170,6 +223,7 @@ def page(a, others):
     # Links to articles that are not published yet become plain text until they are.
     body = re.sub(r'<a href="/blog/([a-z0-9-]+)"[^>]*>(.*?)</a>',
                   lambda m: m.group(0) if m.group(1) in live else m.group(2), body, flags=re.S)
+    body = link_places(body)
     # Number the question headings and build the table of contents.
     heads = re.findall(r"<h2>(.*?)</h2>", body)
     for h in heads:
