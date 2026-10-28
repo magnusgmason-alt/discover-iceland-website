@@ -40,7 +40,7 @@ SLOTS = {
     "series-hawaii-volcanoes": "series-hawaii-volcanoes.jpg",
     "series-wakatobi": "series-wakatobi.jpg",
     "series-history-hawaii": "series-history-hawaii.jpg",
-    "series-tiger-sharks": "series-tiger-sharks.jpg",
+    "series-volcanoes-indonesia": "series-volcanoes-indonesia.jpg",
     "series-coral-triangle": "series-coral-triangle.jpg",
     "series-bali-viral": "series-bali-viral.jpg",
     "series-history-bali": "series-history-bali.jpg",
