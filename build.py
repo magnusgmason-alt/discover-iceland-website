@@ -35,6 +35,15 @@ SLOTS = {
     "checklist-black-beach": "059be267-image.jpg",
     "book-bg-guide": "book-bg-vestrahorn-beach.jpg",
     "winter-road": "winter-road-mountains.jpg",
+    "series-iceland": "series-iceland.jpg",
+    "series-singapore": "series-singapore.jpg",
+    "series-hawaii-volcanoes": "series-hawaii-volcanoes.jpg",
+    "series-wakatobi": "series-wakatobi.jpg",
+    "series-history-hawaii": "series-history-hawaii.jpg",
+    "series-tiger-sharks": "series-tiger-sharks.jpg",
+    "series-coral-triangle": "series-coral-triangle.jpg",
+    "series-bali-viral": "series-bali-viral.jpg",
+    "series-history-bali": "series-history-bali.jpg",
     "map-general": "is-map-01-iceland-general-nobar.jpg",
     "map-highlights": "is-map-02-iceland-highlights-nobar.jpg",
     "map-waterfalls": "is-map-03-iceland-waterfalls-nobar.jpg",
@@ -72,8 +81,8 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "complete-guide.html", "robots.txt", "sitemap.xml", "og.jpg"]
-PAGE_DIRS = ["blog", "js", "places", "preview"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "robots.txt", "sitemap.xml"]
+PAGE_DIRS = ["blog", "js", "places"]
 
 
 def save_sizes(im, name, widths):
@@ -139,7 +148,7 @@ def main():
                 print("map crop", p["slug"])
 
     sm = (ROOT / "sitemap.xml").read_text()
-    urls = ["/journal", "/map", "/complete-guide"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]
+    urls = ["/journal", "/map"] + [f"/blog/{a}" for a in article_slugs] + [f"/places/{p}" for p in sorted(place_slugs)]
     extra = "".join(f"  <url><loc>https://discovericeland.co{u}</loc><lastmod>2026-10-27</lastmod></url>\n"
                     for u in urls if f"discovericeland.co{u}<" not in sm)
     for f in PAGE_FILES:
