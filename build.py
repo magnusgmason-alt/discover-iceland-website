@@ -81,7 +81,7 @@ COVERS = {
     "cover-aurora": "NORTHERN LIGHTS",
 }
 
-PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "plan-your-trip.html", "complete-guide.html", "robots.txt", "sitemap.xml", "og.jpg"]
+PAGE_FILES = ["index.html", "highlights.html", "northern-lights.html", "journal.html", "map.html", "plan-your-trip.html", "404.html", "complete-guide.html", "robots.txt", "sitemap.xml", "og.jpg"]
 PAGE_DIRS = ["blog", "js", "places", "preview"]
 
 
@@ -119,6 +119,8 @@ def main():
     article_slugs = make_articles.main()
     import make_plan
     make_plan.main()
+    import make_404
+    make_404.main()
     import make_highlights
     make_highlights.main()
     import make_aurora

@@ -191,7 +191,7 @@ def main():
 {FOOTER}
 <script>{SCRIPT}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
-<script src="/js/trip-map.js?v=1" defer></script>
+<script src="/js/trip-map.js?v=2" defer></script>
 </body>
 </html>
 """
