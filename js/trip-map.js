@@ -206,6 +206,12 @@
       };
     });
 
+    // A shared trip link opened in a tab that already shows /map only changes the hash: reload to load it.
+    window.addEventListener("hashchange", function () {
+      var m = location.hash.match(/trip=([a-z0-9,-]+)/);
+      if (m && m[1] !== trip.join(",")) location.reload();
+    });
+
     drawTrip();
     if (trip.length) {
       if (/trip=/.test(location.hash)) tabs[1].click();
